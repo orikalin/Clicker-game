@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="clicker_ss.css">
+    <title>dragon clicker</title>
+</head>
+
+<body>
+    <!--
+        1. Build the page
+            -dragon sprite area
+            -player sprite area
+            -background area
+            -shop area
+            -guild area
+    -->
+
+
+    <div class="nav" id="nav"></div>
+
+    <div class="wrapper" id="wrapper">
+        <div></div>
+        <canvas id="canvasDragon" class="canvasDragon" width="600" height="500"></canvas>
+        <div class="borderPins">
+            <div class="borderPinHL1"></div>
+            <div class="borderPinHL2"></div>
+            <div class="borderPinHR1"></div>
+            <div class="borderPinFull"></div>
+            <div class="borderPinBot1"></div>
+            <div class="borderPinBot2"></div>
+            <div class="borderPinBot3"></div>
+            <div class="borderPinTop1"></div>
+            <div class="borderPinTop2"></div>
+            <div class="borderPinTop3"></div>
+
+        </div>
+        <div class="borders">
+            <div class="hBorder1"></div>
+            <div class="hBorder2"></div>
+            <div class="vBorder1"></div>
+            <div class="vBorder2"></div>
+            <div class="vBorder3"></div>
+            <div class="hBorderBtm"></div>
+        </div>
+        <div class="leftSection" id="leftSection">
+            <div class="dragonArea" id="dragonArea">
+                <div class="goldWrapper">
+                    <div id="goldDisplay" class="goldDisplay"> Gold: 0</div>
+                    <div id="gpsDisplay" class="gpsDisplay" style="font-size:50%;">Gold per second : 0</div>
+                </div>
+                <div class="dragonAnchor">
+                    <div id="theDragon" class="theDragon" onclick="dClicked()"></div>
+                </div>
+                <div id="toolTipWindow" class="toolTipWindow">
+                    <div class="ttIcon"></div><img class="coinStack" src="art/coinStack.png">
+                    <div class="ttName"></div><br>
+                    <div class="ttDesc"></div>
+                </div>
+            </div>
+
+            <div class="playerArea" id="playerArea">
+                <div class="namePlate">
+                    <div id="changeNamePlate" onclick="changeName()">Change</div>
+                    <div class="playerName"></div>
+                </div>
+                <div id="stats" class="stats">Gold Per Click - TT should eventually include sources<br>Damage - TT includes gold gained by damage<br>Crit rate - TT includes gold on crit <br></div>
+                <div class="playerAnchor">
+                    <div id="thePlayer" class="thePlayer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="shopSection" id="shopSection">
+            <div class="shopHeader">Shop graphics go here</div>
+            <div class="shopWrapper">
+                <div class="theShop">
+                    <div id="ironSword" class="ironSword shopItem shadowedItem" onmouseover="ttIronSword()" onmouseout="ttClear()" onclick="buyIronSword()"></div>
+                    <div id="steelSword" class="steelSword shopItem shadowedItem shopHidden" onmouseover="ttSteelSword()" onmouseout="ttClear()" onclick="buySteelSword()"></div>
+                </div>
+            </div>
+        </div>
+        <div id="guildSection" class="guildSection">
+            <div class="guildHeader">Guild graphics go here</div>
+            <div class="guildWrapper">
+                <div class="theGuild">
+                    <div class="newbTT" onmouseover="ttNewb()" onmouseout="ttClear()">
+                        <div id="newb" class="newb shadowed gBevel" onclick="buyNewb()">
+                            <div class="newbCount gCount">0</div>
+                            <div class="newbCost gCost">10</div>
+                        </div>
+                    </div>
+                    <div class="mercTT" onmouseover="ttMerc()" onmouseout="ttClear()">
+                        <div id="merc" class="merc shadowed bStyle gBevel guildHidden" onclick="buyMerc()">
+                            <div class="mercCount gCount"></div>
+                            <div class="mercCost gCost"></div>
+                        </div>
+                    </div>
+                    <div class="koboldsTT" onmouseover="ttKobold()" onmouseout="ttClear()">
+                        <div id="kobold" class="kobold shadowed bStyle gBevel guildHidden" onclick="buyKobold()">
+                            <div class="koboldCount gCount"></div>
+                            <div class="koboldCost gCost"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    <script>
+        //recruits will add gold per second
+        //items will add gold per click, and in some cases improve recuits
+        //each recruit needs a base GPS value and there needs to be a function to
+        //calculate how much GPS you get from the # of recuits + the upgrades
+
+        //upgrades need to be stored in a global variable so I can access them
+        //in multiple places
+
+        //r1
+        //r2
+        //r3
+        function $(c) {
+            return document.querySelector(c)
+        }
+
+        function $c(log) {
+            console.log(log)
+        }
+        newbCostMult = 0.45
+            //Guild costs------
+        var newbCost = 10
+        var mercCost = 100
+        var koboldCost = 500
+        var rogueCost = 2000
+        var thiefCost = 2000
+        var proHunterCost
+            //-----------------
+            //Item Costs-------
+        var ironSwordCost = 500
+        var steelSwordCost = 5000
+            //-----------------
+        var ttWindow = $(".toolTipWindow")
+        var koboldUps = 0
+        var gold = 0
+        var upgrades = 0
+        var gpc = 1
+        var gps = 0
+        var gDisplay = $(".goldDisplay")
+        var playerName = $(".playerName")
+        var newbCount = 0
+        var newbUps = 0
+        var flatClickUpgrades = 0
+        var rateClickUpgrades = 0 //Number((gps * 0.01).toFixed(0))
+            //used for percentage click upgrades
+        var mercUps = 0
+        var mercCount = 0
+        var koboldCount = 0
+            //var newbs = document.getElementById("newbs")
+            //var kobolds = document.getElementById("kobolds")
+        var GAME_TICK = 1; //1000 / fps = this
+        var then = Date.now(); //grabs the current time when the page loads
+        var gameInterval;
+        var smallUpdateTime = 0;
+        var bigUpdateTime = 0;
+
+        var dCanvas = document.getElementById("canvasDragon")
+        var ctx = dCanvas.getContext("2d")
+        var iSEle = document.getElementById("ironSword")
+            //iSEle.addEventListener("click", buyIronSword())
+
+        function ttNewb() {
+            ttWindow.style.display = "block"
+            ttWindow.childNodes[1].innerText = ""
+            ttWindow.childNodes[2].src = ""
+            ttWindow.childNodes[4].innerText = "Newbies"
+            ttWindow.childNodes[7].innerText = "Ready for their first adventure,\ncomplete with red shirt!\n\n+1 gold per second"
+
+        }
+
+        function ttMerc() {
+            ttWindow.style.display = "block"
+            ttWindow.childNodes[1].innerText = ""
+            ttWindow.childNodes[2].src = ""
+            ttWindow.childNodes[4].innerText = "Mercenary"
+            ttWindow.childNodes[7].innerText = "A slightly more experienced adventurer.\nOnly slighty.\n\n+5 gold per second"
+        }
+
+        function ttKobold() {
+            ttWindow.style.display = "block"
+            ttWindow.childNodes[1].innerText = ""
+            ttWindow.childNodes[2].src = ""
+            ttWindow.childNodes[4].innerText = "Kobold"
+            ttWindow.childNodes[7].innerText = "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+25 gold per second"
+        }
+
+        function ttIronSword() {
+            ttWindow.style.display = "block"
+            ttWindow.childNodes[1].innerText = `${ironSwordCost}`
+            ttWindow.childNodes[2].src = "art/coinStack.png"
+            ttWindow.childNodes[4].innerText = "Iron Sword"
+            ttWindow.childNodes[7].innerText = "Not sure what you were using before...\n\n+1 Gold per click"
+        }
+
+        function ttSteelSword() {
+            ttWindow.style.display = "block"
+            ttWindow.childNodes[1].innerText = `${steelSwordCost}`
+            ttWindow.childNodes[2].src = "art/coinStack.png"
+            ttWindow.childNodes[4].innerText = "Steel Sword"
+            ttWindow.childNodes[7].innerText = "A slight improvment\n\n+1 Gold per click"
+        }
+
+        function ttClear() {
+            ttWindow.style.display = "none"
+
+        }
+
+        function dClicked() {
+
+            gold = gold + gpc + flatClickUpgrades + rateClickUpgrades
+            gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+        }
+
+        function priceCheckGuild(cost, type) {
+            if (cost <= gold) {
+                type.classList.remove("shadowed")
+            } else {
+                type.classList.add("shadowed")
+            }
+        }
+
+        function priceCheckItem(cost, type) {
+            if (cost <= gold) {
+                type.classList.remove("shadowedItem")
+            } else {
+                type.classList.add("shadowedItem")
+            }
+        }
+
+        function revealItem(cost, item) {
+            if (gold * 2 >= cost) {
+                item.classList.remove("shopHidden")
+            }
+        }
+
+        /* function revealGuild(cost, recruit, count) {
+            if (gold * 2 >= cost) {
+                recruit.classList.remove("guildHidden")
+                $("." + String(`${recruit}`) + "Count").innerText = count
+                $("." + String(`${recruit}`) + "Cost").innerText = cost
+            }
+        } */
+
+        function updateGold() {
+            gold = gold + (gps / 10)
+            gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+            gpsDisplay.innerHTML = `Gold per second : ${gps}`
+        }
+
+        function updateOtherStuff() {
+            priceCheckGuild(newbCost, newb)
+            priceCheckGuild(mercCost, merc)
+            priceCheckGuild(koboldCost, kobold)
+            priceCheckItem(ironSwordCost, ironSword)
+            priceCheckItem(steelSwordCost, steelSword)
+            revealItem(steelSwordCost, steelSword)
+            if (gold * 2 >= mercCost) {
+                merc.classList.remove("guildHidden")
+                $(".mercCount").innerText = mercCount
+                $(".mercCost").innerText = mercCost
+            }
+            //revealGuild(mercCost, merc, mercCost) This needs to be sent an object rather than individual variables
+            //to work the way I want it to. Combine recruit, recruitCost and recruitCount into an object at some point.
+            if (gold * 2 >= koboldCost) {
+                kobold.classList.remove("guildHidden")
+                $(".koboldCount").innerText = koboldCount
+                $(".koboldCost").innerText = koboldCost
+            }
+        }
+
+        function changeName() {
+            playerName.innerText = prompt("What is your name?")
+        }
+
+        function buyIronSword() {
+            if (ironSwordCost <= gold) {
+                console.log('you bought an iron sword')
+
+                gold = gold - ironSwordCost
+                flatClickUpgrades++
+                ironSword.classList.add("shopDisable")
+            }
+        }
+
+        function buySteelSword() {
+            if (steelSwordCost <= gold) {
+                console.log('you bought a steel sword')
+
+                gold = gold - steelSwordCost
+                flatClickUpgrades++
+                steelSword.classList.add("shopDisable")
+            }
+        }
+
+        function buyNewb() {
+            if (gold >= newbCost) {
+                gold = gold - newbCost
+                newbCount = newbCount + 1
+                newbCost = newbCost + Number((newbCost * newbCostMult).toFixed(0))
+                newbCostMult = newbCostMult - 0.05
+                if (newbCostMult < 0.1) {
+                    newbCostMult = 0.1
+                }
+                $(".newbCount").innerText = newbCount
+                $(".newbCost").innerText = newbCost
+                gps = gps + 1 + newbUps
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                gpsDisplay.innerHTML = `Gold per second : ${gps}`
+            }
+
+        }
+
+        function buyMerc() {
+            if (gold >= mercCost) {
+                gold = gold - mercCost
+                mercCount = mercCount + 1
+                mercCost = mercCost + Number((mercCost * 0.15).toFixed(0))
+                $(".mercCount").innerText = mercCount
+                $(".mercCost").innerText = mercCost
+                gps = gps + 5 + mercUps
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                gpsDisplay.innerHTML = `Gold per second : ${gps}`
+            }
+
+        }
+
+        function buyKobold() {
+            if (gold >= koboldCost) {
+                gold = gold - koboldCost
+                koboldCount = koboldCount + 1
+                koboldCost = koboldCost + Number((koboldCost * 0.15).toFixed(0))
+                $(".koboldCount").innerText = koboldCount
+                $(".koboldCost").innerText = koboldCost
+                gps = gps + 25 + koboldUps
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                gpsDisplay.innerHTML = `Gold per second : ${gps}`
+            }
+        }
+        var currentInterval
+        var delta
+        var smallInterval
+        var largeInterval
+        var oldInterval
+        var fpsInterval
+        var fpsUpdate = 0
+
+        function onGameTick() {
+            // Update the timing
+            currentInterval = Date.now();
+            delta = currentInterval - oldInterval; // currently unused, but can be used in the future to handle things
+            oldInterval = currentInterval; // that happen while the game is closed
+
+            var smallInterval = currentInterval - smallUpdateTime; //this starts as 0
+            var largeInterval = currentInterval - bigUpdateTime; //this too
+            if (fpsInterval >= 30) {
+                fpsUpdate = currentInterval;
+                //updateToolTipPos();
+            }
+
+            if (smallInterval >= 98) {
+                smallUpdateTime = currentInterval;
+                updateGold();
+            }
+
+            if (largeInterval >= 250) {
+                bigUpdateTime = currentInterval;
+                updateOtherStuff();
+            }
+        };
+
+        function onStartup() {
+            if (gameInterval) { //if an interval is set for some reason, clear it
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+            gameInterval = setInterval(onGameTick, GAME_TICK); // do the things in onGameTick at the rate of GAME_TICK
+        }
+
+        function onShutdown() {
+            if (gameInterval) {
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+        }
+
+
+        onStartup();
+    </script>
+</body>
+
+</html>
