@@ -41,6 +41,64 @@ ul {
     bottom: 0px;
 }
 
+ol {
+    margin: 5px;
+    padding: 10px;
+    list-style: circle;
+    list-style-position: inside;
+}
+
+.updateSection {
+    position: absolute;
+    left: 1230px;
+    width: 300px;
+    height: 760px;
+    background-color: rgb(59, 64, 73);
+    border-right: 8px;
+    border-bottom: 8px;
+    border-top: 0;
+    border-left: 0;
+    border-style: groove;
+    border-color: rgb(241, 177, 1);
+}
+
+.donationBtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.optionsBtn {
+    position: absolute;
+    border-radius: 5px;
+    top: 790px;
+    width: 34px;
+    height: 33px;
+    background-image: url(art/gear.png)
+}
+
+.options {
+    position: absolute;
+    border: 6px groove rgb(55, 110, 192);
+    border-radius: 5px;
+    left: 34px;
+    top: 790px;
+    width: 300px;
+    height: 150px;
+    background-color: rgb(90, 90, 90);
+}
+
+.deleteSaveBtn {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border-radius: 3px;
+}
+
+.deleteSaveBtn:hover {
+    background-color: red;
+}
+
 .borders {
     position: absolute;
 }
@@ -216,17 +274,6 @@ ul {
     height: 60px;
     text-align: center;
     font-size: 30px;
-}
-
-.goldDisplay {
-    position: absolute;
-    left: 220px;
-}
-
-.gpsDisplay {
-    bottom: 1px;
-    left: 225px;
-    position: absolute;
 }
 
 .dragonAnchor {

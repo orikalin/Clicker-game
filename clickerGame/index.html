@@ -2,16 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-158735968-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-158735968-1');
-</script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -130,6 +120,25 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="updateSection" class="updateSection">
+        <form action="https://ko-fi.com/amortes">
+            <input type="submit" value="Donate~" id="donationBtn" class="donationBtn" />
+        </form><br>
+        <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
+            top!
+        </p>
+        <ol>Update 2/21/2020
+            <li>added options button along with update pane and several options.</li>
+
+        </ol>
+
+    </div>
+    <button id="optionsBtn" class="optionsBtn"></button>
+    <div id="options" class="options">
+        <input type="checkbox" checked="" id="textJitter">Gold text jitter off<br>
+        <input type="checkbox" checked="" id="updateToggle">Show update pane<br>
+        <button id="deleteSaveBtn" class="deleteSaveBtn">Delete Save</button>
     </div>
 
 
@@ -284,8 +293,9 @@
         var fpsUpdate = 0
         const theDragon = document.getElementById("theDragon")
         theDragon.addEventListener('click', dClicked)
-            //Guild Objs-----------
-            //elementID, cost, count, costElementClass, CountElementClass, costMultiplier, multiplierFloor, gpsIncrease, tooltip title, tooltip description
+
+        //Guild Objs-----------
+        //elementID, cost, count, costElementClass, CountElementClass, costMultiplier, multiplierFloor, gpsIncrease, tooltip title, tooltip description
         const newbObj = new guildRecruit(newb, 10, 0, ".newbCost", ".newbCount", 0.5, 0.1, 1, "Newbie", "Ready for their first adventure,\ncomplete with red shirt!\n\n+1 gold per second")
         const mercObj = new guildRecruit(merc, 100, 0, ".mercCost", ".mercCount", 0.5, 0.15, 5, "Mercenary", "A slightly more experienced adventurer.\nOnly slighty.\n\n+5 gold per second")
         const koboldObj = new guildRecruit(kobold, 500, 0, ".koboldCost", ".koboldCount", 0.5, 0.15, 25, "Kobold", "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+25 gold per second")
@@ -293,7 +303,7 @@
         const proHunterObj = new guildRecruit(proHunter, 50000, 0, ".proHunterCost", ".proHunterCount", 0.05, 0.25, 500, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+500 gold per second\n+1 second-hand embarassment.")
         const jRPGProtagObj = new guildRecruit(jRPGProtag, 99999, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.5, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+999 gold per second")
 
-        //Item Objs-----------
+        //Item Objs-------------
         //type, cost, tooltip title, tooltip description
         const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "Not sure what you were using before...\n\n+1 Gold per click")
         const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment\n\n+1 Gold per click")
@@ -374,10 +384,11 @@
                 jRPGProtagClass: jRPGProtagObj.type.classList.value,
                 ironSword: ironSwordObj.type.classList.value,
                 steelSword: steelSwordObj.type.classList.value,
-                boneSword: boneSwordObj.type.classList.value
+                boneSword: boneSwordObj.type.classList.value,
+                playerName: playerName.innerText
             }
             localStorage.setItem("save", JSON.stringify(save));
-            console.log(save)
+            console.log('saved')
         }
 
         function rLoadTest(saveVarCost, saveVarCount, obj, clist) {
@@ -403,37 +414,28 @@
 
         function loadGame() {
             var savegame = JSON.parse(localStorage.getItem("save"));
-            console.log(savegame)
-            if (typeof savegame.gold !== "undefined") gold = savegame.gold;
-            if (typeof savegame.gps !== "undefined") gps = savegame.gps;
-            if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
-            if (typeof savegame.rateClickUpgrades !== "undefined") rateClickUpgrades = savegame.rateClickUpgrades;
-            rLoadTest(savegame.newbCost, savegame.newbCount, newbObj, savegame.newbClass)
-            rLoadTest(savegame.mercCost, savegame.mercCount, mercObj, savegame.mercClass)
-            rLoadTest(savegame.koboldCost, savegame.koboldCount, koboldObj, savegame.koboldClass)
-            rLoadTest(savegame.rogueCost, savegame.rogueCount, rogueObj, savegame.rogueClass)
-            rLoadTest(savegame.proHunterCost, savegame.proHunterCount, proHunterObj, savegame.proHunterClass)
-            rLoadTest(savegame.jRPGProtagCost, savegame.jRPGProtagCount, jRPGProtagObj, savegame.jRPGProtagClass)
-            iLoadTest(ironSwordObj, savegame.ironSword)
-            iLoadTest(steelSwordObj, savegame.steelSword)
-            iLoadTest(boneSwordObj, savegame.boneSword)
-
-            /* if (typeof savegame.mercObj !== "undefined") mercObj = savegame.mercObj;
-            if (typeof savegame.koboldObj !== "undefined") koboldObj = savegame.koboldObj;
-            if (typeof savegame.rogueObj !== "undefined") rogueObj = savegame.rogueObj;
-            if (typeof savegame.proHunterObj !== "undefined") proHunterObj = savegame.proHunterObj;
-            if (typeof savegame.jRPGProtagObj !== "undefined") jRPGProtagObj = savegame.jRPGProtagObj;
-            if (typeof savegame.ironSwordObj !== "undefined") ironSwordObj = savegame.ironSwordObj;
-            if (typeof savegame.steelSwordObj !== "undefined") steelSwordObj = savegame.steelSwordObj;
-            if (typeof savegame.boneSwordObj !== "undefined") boneSwordObj = savegame.boneSwordObj;
-            if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
-            if (typeof savegame.rateClickUpgrades !== "undefined") rateClickUpgrades = savegame.rateClickUpgrades; */
+            if (savegame !== null) {
+                if (typeof savegame.gold !== "undefined") gold = savegame.gold;
+                if (typeof savegame.gps !== "undefined") gps = savegame.gps;
+                if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
+                if (typeof savegame.rateClickUpgrades !== "undefined") rateClickUpgrades = savegame.rateClickUpgrades;
+                if (typeof savegame.playerName !== "undefined") playerName.innerText = savegame.playerName;
+                rLoadTest(savegame.newbCost, savegame.newbCount, newbObj, savegame.newbClass)
+                rLoadTest(savegame.mercCost, savegame.mercCount, mercObj, savegame.mercClass)
+                rLoadTest(savegame.koboldCost, savegame.koboldCount, koboldObj, savegame.koboldClass)
+                rLoadTest(savegame.rogueCost, savegame.rogueCount, rogueObj, savegame.rogueClass)
+                rLoadTest(savegame.proHunterCost, savegame.proHunterCount, proHunterObj, savegame.proHunterClass)
+                rLoadTest(savegame.jRPGProtagCost, savegame.jRPGProtagCount, jRPGProtagObj, savegame.jRPGProtagClass)
+                iLoadTest(ironSwordObj, savegame.ironSword)
+                iLoadTest(steelSwordObj, savegame.steelSword)
+                iLoadTest(boneSwordObj, savegame.boneSword)
+            }
 
         }
 
         function deleteSave() {
             localStorage.removeItem("save")
-            window.location.reload(true);
+            window.location.reload(false);
         }
 
         function onGameTick() {
@@ -474,6 +476,53 @@
             }
             gameInterval = setInterval(onGameTick, GAME_TICK); // do the things in onGameTick at the rate of GAME_TICK
             loadGame();
+
+            $("#options").hide()
+            if (document.getElementById("textJitter").checked) {
+                $(".goldDisplay").css({
+                    "position": "absolute",
+                    "left": "246px"
+                })
+                $(".gpsDisplay").css({
+                    "position": "absolute",
+                    "left": "228px",
+                    "bottom": "3px"
+                })
+            }
+            document.getElementById("updateToggle").checked = false;
+            $("#updateSection").hide()
+
+            $("#optionsBtn").click(function() {
+                $("#options").toggle();
+            })
+            $("#deleteSaveBtn").click(deleteSave)
+            $("#textJitter").change(
+                function() {
+                    if (this.checked) {
+                        $(".goldDisplay").css({
+                            "position": "absolute",
+                            "left": "246px"
+                        })
+                        $(".gpsDisplay").css({
+                            "position": "absolute",
+                            "left": "228px",
+                            "bottom": "3px"
+                        })
+                    } else {
+                        $(".goldDisplay").css({
+                            "position": "static"
+                        })
+                        $(".gpsDisplay").css({
+                            "position": "static"
+                        })
+                    }
+
+                });
+            $("#updateToggle").change(
+                function() {
+                    $("#updateSection").toggle()
+                }
+            )
         }
 
         function onShutdown() {
