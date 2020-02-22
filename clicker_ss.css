@@ -1,0 +1,616 @@
+@font-face {
+    font-family: 'Immortal';
+    src: url('fonts/IMMORTAL.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    -moz-user-select: none;
+    user-select: none;
+    vertical-align: baseline;
+}
+
+ol,
+ul {
+    list-style: none;
+    font-weight: bolder;
+}
+
+li {
+    font-weight: normal;
+}
+
+#canvasDragon {
+    z-index: 9999;
+    position: absolute;
+}
+
+#wrapper {
+    background-color: rgb(27, 27, 27);
+    width: 1230px;
+    height: 780px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+ol {
+    margin: 5px;
+    padding: 10px;
+    list-style: circle;
+    list-style-position: inside;
+}
+
+.updateSection {
+    position: absolute;
+    left: 1230px;
+    width: 300px;
+    height: 760px;
+    background-color: rgb(59, 64, 73);
+    border-right: 8px;
+    border-bottom: 8px;
+    border-top: 0;
+    border-left: 0;
+    border-style: groove;
+    border-color: rgb(241, 177, 1);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.donationBtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.optionsBtn {
+    position: absolute;
+    border-radius: 5px;
+    top: 790px;
+    width: 34px;
+    height: 33px;
+    background-image: url(art/gear.png)
+}
+
+.options {
+    position: absolute;
+    border: 6px groove rgb(55, 110, 192);
+    border-radius: 5px;
+    left: 34px;
+    top: 790px;
+    width: 300px;
+    height: 150px;
+    background-color: rgb(90, 90, 90);
+}
+
+.deleteSaveBtn {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border-radius: 3px;
+}
+
+.deleteSaveBtn:hover {
+    background-color: red;
+}
+
+.borders {
+    position: absolute;
+}
+
+.hBorder1,
+.hBorder2 {
+    position: absolute;
+    height: 10px;
+    background: url(art/hBorderSm.png)
+}
+
+.hBorder1 {
+    top: 500px;
+    width: 600px;
+}
+
+.hBorder2 {
+    top: 150px;
+    left: 610px;
+    width: 610px;
+}
+
+.vBorder1,
+.vBorder2,
+.vBorder3 {
+    position: absolute;
+    height: 760px;
+    width: 10px;
+    background: url(art/vBorderSm.png)
+}
+
+.vBorder1 {
+    left: 600px;
+}
+
+.vBorder2 {
+    left: 910px;
+}
+
+.vBorder3 {
+    left: 1220px;
+}
+
+.borderPinHL1 {
+    z-index: 10002;
+    position: absolute;
+    left: 589px;
+    top: 486px;
+    height: 41px;
+    width: 21px;
+    background: url(art/borderPinHL.png);
+}
+
+.borderPinHL2 {
+    z-index: 600;
+    position: absolute;
+    left: 1209px;
+    top: 135px;
+    height: 41px;
+    width: 21px;
+    background: url(art/borderPinHL.png);
+}
+
+.borderPinHR1 {
+    z-index: 600;
+    position: absolute;
+    left: 600px;
+    top: 135px;
+    height: 41px;
+    width: 21px;
+    background: url(art/borderPinHR.png);
+}
+
+.borderPinFull {
+    z-index: 600;
+    position: absolute;
+    left: 895px;
+    top: 135px;
+    height: 41px;
+    width: 40px;
+    background: url(art/borderPinFull.png);
+}
+
+.borderPinBot1,
+.borderPinBot2,
+.borderPinBot3 {
+    position: absolute;
+    top: 739px;
+    z-index: 600;
+    background: url(art/borderPinHB.png);
+    width: 40px;
+    height: 21px;
+}
+
+.borderPinTop1,
+.borderPinTop2,
+.borderPinTop3 {
+    position: absolute;
+    z-index: 600;
+    background: url(art/borderPinHT.png);
+    width: 40px;
+    height: 21px;
+}
+
+.borderPinBot1,
+.borderPinTop1 {
+    left: 585px;
+}
+
+.borderPinBot2,
+.borderPinTop2 {
+    left: 895px;
+}
+
+.borderPinBot3 {
+    width: 21px;
+    background: url(art/borderPinBR.png);
+    left: 1207px;
+}
+
+.borderPinTop3 {
+    width: 21px;
+    background: url(art/borderPinTR.png);
+    left: 1207px;
+}
+
+.hBorderBtm {
+    z-index: 10000;
+    position: absolute;
+    top: 760px;
+    height: 30px;
+    width: 1230px;
+    background: url(art/borderBtmLrg.png);
+    box-shadow: inset 5px 0 10px 1px rgba(0, 0, 0, 0.8), inset -5px 0 10px 1px rgba(0, 0, 0, 0.8);
+}
+
+.leftSection {
+    position: absolute;
+    width: 600px;
+    height: 780px;
+    left: 0;
+}
+
+.shopSection {
+    position: absolute;
+    width: 300px;
+    height: 780px;
+    left: 610px;
+}
+
+.guildSection {
+    position: absolute;
+    width: 300px;
+    height: 780px;
+    left: 920px;
+}
+
+.dragonArea {
+    position: absolute;
+    background: url(art/dragonBG.png);
+    height: 500px;
+    width: 600px;
+}
+
+.goldWrapper {
+    font-family: IMMORTAL;
+    position: absolute;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.4);
+    left: 0;
+    top: 10%;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.dragonAnchor {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+}
+
+#theDragon {
+    z-index: 10000;
+    position: absolute;
+    height: 160px;
+    width: 300px;
+    top: -80px;
+    left: -150px;
+    background: url(art/drgnPlaceholder.jpg);
+    opacity: 0.4;
+}
+
+.playerArea {
+    position: absolute;
+    background-color: rgb(59, 64, 73);
+    top: 510px;
+    height: 250px;
+    width: 600px;
+}
+
+.playerAnchor {
+    position: absolute;
+    right: 25%;
+    top: 50%;
+}
+
+.thePlayer {
+    z-index: 600;
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    top: -100px;
+    left: -100px;
+    background: url(art/charaPlaceholder.png);
+}
+
+.namePlate {
+    position: absolute;
+    width: 40%;
+    Height: 15%;
+    background-color: rgb(87, 96, 112);
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+}
+
+#changeNamePlate {
+    font-size: 10px;
+    position: absolute;
+    width: 15%;
+    Height: 12px;
+    background-color: rgb(38, 42, 48);
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom-right-radius: 5px;
+    box-shadow: 1px 1px black;
+    text-align: center;
+}
+
+.playerName {
+    font-family: Immortal;
+    font-size: 35px;
+    text-align: center;
+}
+
+.stats {
+    position: absolute;
+    top: 50px;
+    background-color: rgb(38, 42, 48);
+    width: 250px;
+    height: 175px;
+}
+
+.shopHeader {
+    background-color: rgb(59, 64, 73);
+    width: 300px;
+    height: 150px;
+}
+
+.shopWrapper {
+    position: absolute;
+    top: 160px;
+    width: 300px;
+    height: 600px;
+}
+
+.theShop {
+    background-color: rgb(59, 64, 73);
+    height: 100%;
+    width: 100%;
+}
+
+.guildHeader {
+    background-color: rgb(59, 64, 73);
+    width: 300px;
+    height: 150px;
+}
+
+.guildWrapper {
+    position: absolute;
+    top: 160px;
+    width: 300px;
+    height: 600px;
+}
+
+.theGuild {
+    background-color: rgb(59, 64, 73);
+    height: 100%;
+    width: 100%;
+}
+
+.gBevel {
+    position: relative;
+    width: 300px;
+    height: 80px;
+    color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset -10px -10px 2px, inset 10px 10px 2px rgba(250, 250, 250, 0.2), inset -5px -5px 3px 1px, inset 5px 5px 3px 1px rgba(250, 250, 250, 0.2);
+}
+
+.newb {
+    background: url(art/newbieBtn.png);
+}
+
+.merc {
+    background: url(art/mercBtn.png);
+}
+
+.kobold {
+    background: url(art/koboldBtn.png);
+}
+
+.rogue {
+    background: url(art/rogueBtn.png);
+}
+
+.proHunter {
+    background: url(art/proHunterBtn.png);
+}
+
+.jRPGProtag {
+    background: url(art/jRPGProtagBtn.png);
+}
+
+.gBevel:active {
+    color: rgba(250, 250, 250, 0.2);
+    box-shadow: inset -10px -10px 2px, inset 10px 10px 2px rgba(0, 0, 0, 0.2), inset -5px -5px 3px 1px, inset 5px 5px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.shadowed {
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 10px 50px;
+}
+
+.bStyle {
+    border-top: 5px solid rgb(0, 0, 0);
+    border-top-style: groove;
+}
+
+.gCount {
+    position: absolute;
+    font-family: IMMORTAL;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 30px;
+    text-align: right;
+    bottom: 1px;
+    right: 12px;
+}
+
+.gCost {
+    position: absolute;
+    left: 105px;
+    top: 45px;
+    font-family: IMMORTAL;
+    color: rgb(71, 255, 34);
+    font-size: 22px;
+}
+
+.toolTipWindow {
+    visibility: visible;
+    z-index: 10001;
+    position: absolute;
+    display: none;
+    bottom: 0;
+    right: 0;
+    min-width: 200px;
+    min-height: 50px;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    border: 5px solid rgb(129, 32, 2);
+    border-style: groove;
+}
+
+.ttIcon {
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    font-family: IMMORTAL;
+    color: rgb(71, 255, 34);
+    float: left;
+}
+
+.ttName {
+    font-weight: bold;
+    float: right;
+    text-align: right;
+    margin: 5px 5px 0 0;
+}
+
+.ttDesc {
+    float: left;
+    text-align: left;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.shopItem {
+    background-color: rgb(64, 76, 99);
+    float: left;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgb(55, 110, 192);
+    border-style: groove;
+}
+
+.ironSword {
+    background-image: url(art/ironSword.png);
+}
+
+.steelSword {
+    background-image: url(art/ironSword.png);
+}
+
+.boneSword {
+    background-image: url(art/ironSword.png);
+}
+
+.itemTT {
+    width: 50px;
+    height: 50px;
+}
+
+.coinStack {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.shadowedItem {
+    color: rgba(0, 0, 0, 0.4);
+    border: 5px solid rgb(49, 49, 49);
+}
+
+.guildHidden,
+.shopHidden,
+.shopDisable {
+    border: none;
+    border-style: none;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+    background: none;
+}
+
+#animations {
+    width: 100%;
+    height: 100%;
+}
+
+.animation {
+    position: absolute;
+    z-index: 10003;
+    pointer-events: none;
+    font-family: IMMORTAL;
+    font-size: 20px;
+    animation: scaleInOut 1.0s ease-out;
+}
+
+.animation2 {
+    position: absolute;
+    width: 24px;
+    height: 25px;
+    z-index: 10002;
+    pointer-events: none;
+    animation: fallFade 1.0s linear;
+    background-image: url(art/zero.png);
+}
+
+@keyframes scaleInOut {
+    0% {
+        opacity: 1.0;
+        transform: translate(0, 0) scale(1.0);
+    }
+    100% {
+        opacity: 0.0;
+        transform: translate(0, -50px) scale(1.5);
+    }
+}
+
+@keyframes fallFade {
+    0% {
+        opacity: 1.0;
+        transform: translate(0, 0) scale(1.5);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translate(20px, -40px) scale(0.5);
+    }
+    70% {
+        opacity: 0.3;
+        transform: translate(30px, -50px) scale(0.4);
+    }
+    80% {
+        opacity: 0.2;
+        transform: translate(35px, -45px) scale(0.3);
+    }
+    90% {
+        opacity: 0.1;
+        transform: translate(38px, -30px) scale(0.2);
+    }
+    100% {
+        opacity: 0.0;
+        transform: translate(40px, -15px) scale(0.2);
+    }
+}
