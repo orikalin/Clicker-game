@@ -65,6 +65,8 @@ ol {
     border-left: 0;
     border-style: groove;
     border-color: rgb(241, 177, 1);
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .donationBtn {
