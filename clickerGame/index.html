@@ -444,6 +444,8 @@
                 ironSword: ironSwordObj.type.classList.value,
                 steelSword: steelSwordObj.type.classList.value,
                 boneSword: boneSwordObj.type.classList.value,
+                goldenLoop: goldenLoopObj.type.classList.value,
+                ringOfMidas: ringOfMidasObj.type.classList.value,
                 playerName: playerName.innerText
             }
             localStorage.setItem("save", JSON.stringify(save));
@@ -489,6 +491,8 @@
                 iLoadTest(ironSwordObj, savegame.ironSword)
                 iLoadTest(steelSwordObj, savegame.steelSword)
                 iLoadTest(boneSwordObj, savegame.boneSword)
+                iLoadTest(goldenLoopObj, savegame.goldenLoop)
+                iLoadTest(ringOfMidasObj, savegame.ringOfMidas)
             }
 
         }
