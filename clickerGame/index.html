@@ -59,7 +59,7 @@
                     <div id="changeNamePlate" onclick="changeName()">Change</div>
                     <div class="playerName"></div>
                 </div>
-                <div id="stats" class="stats">Gold Per Click - TT should eventually include sources<br>Damage - TT includes gold gained by damage<br>Crit rate - TT includes gold on crit <br></div>
+                <div id="stats" class="stats">Stats readout coming soon!</div>
                 <div class="playerAnchor">
                     <div id="thePlayer" class="thePlayer"></div>
                 </div>
@@ -72,6 +72,8 @@
                     <div id="ironSword" class="ironSword shopItem shadowedItem" onmouseover='ironSwordObj.showToolTip()' onmouseout="ttClear()" onclick="ironSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="steelSword" class="steelSword shopItem shadowedItem shopHidden" onmouseover='steelSwordObj.showToolTip()' onmouseout="ttClear()" onclick="steelSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="boneSword" class="boneSword shopItem shadowedItem shopHidden" onmouseover='boneSwordObj.showToolTip()' onmouseout="ttClear()" onclick="boneSwordObj.buyFlatUpgradeItem()"></div>
+                    <div id="goldenLoop" class="goldenLoop shopItem shadowedItem" onmouseover='goldenLoopObj.showToolTip()' onmouseout="ttClear()" onclick="goldenLoopObj.buyRateUpgradeItem()"></div>
+                    <div id="ringOfMidas" class="ringOfMidas shopItem shadowedItem shopHidden" onmouseover='ringOfMidasObj.showToolTip()' onmouseout="ttClear()" onclick="ringOfMidasObj.buyRateUpgradeItem()"></div>
                 </div>
             </div>
         </div>
@@ -128,6 +130,11 @@
         <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
+        <ol>Update 2/22/2020
+            <li>Created a solution to progression slowing while tabbed out, as well as offline progression (Limited to 1 hour, but future items/other features will raise this limit!)</li>
+            <li>Slowed down progression, added some items to make clicks more meaningful, more to come soon!</li>
+            <li>implemented a critical hit system</li>
+        </ol>
         <ol><u>Update 2/21/2020</u>
             <li>added options button along with update pane and several options.</li>
             <li>Rogue art</li>
@@ -140,6 +147,7 @@
             <li>a stat panel, including things such as gold per click, damage, crit rate, and other various things</li>
             <li>add many more things to the shop and recruit sections</li>
             <li>balance the gameplay</li>
+            <li>Future-proof some code for balance updates</li>
         </ol>
     </div>
     <button id="optionsBtn" class="optionsBtn"></button>
@@ -190,7 +198,7 @@
                     QS(this.costEle).innerText = this.cost
                     gps = gps + this.gpsI
                     gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
-                    gpsDisplay.innerHTML = `Gold per second : ${gps}`
+                    gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
                 }
 
             }
@@ -216,11 +224,13 @@
         }
 
         class shopItem {
-            constructor(type, cost, title, desc) {
+            constructor(type, cost, title, desc, crit, mult) {
                 this.type = type
                 this.cost = cost
                 this.title = title
                 this.desc = desc
+                this.crit = crit
+                this.mult = mult
             }
             priceCheckItem() {
                 if (this.cost <= gold) {
@@ -233,6 +243,8 @@
                 if (this.cost <= gold) {
                     gold = gold - this.cost
                     flatClickUpgrades++
+                    critChance = critChance + this.crit
+                    critMulti = critMulti + this.mult
                     this.type.classList.add("shopDisable")
                 }
             }
@@ -240,6 +252,8 @@
                 if (this.cost <= gold) {
                     gold = gold - this.cost
                     rateClickUpgrades = rateClickUpgrades + 0.01
+                    critChance = critChance + this.crit
+                    critMulti = critMulti + this.mult
                     this.type.classList.add("shopDisable")
                 }
             }
@@ -271,12 +285,20 @@
         function dClicked(e) {
             posX = e.clientX
             posY = e.clientY
-            finalGpc = gpc + flatClickUpgrades + (gpc * rateClickUpgrades)
-            gold = gold + finalGpc
-            gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
-            var goldAnim = $('<div  class="animation anim" style="top:' + (posY - 10) + 'px; left:' + (posX + rngInt(-25, -5)) + 'px">+' + finalGpc + '</div>');
-            var damageAnim = $('<div  class="animation2 anim" style="top:' + (posY + rngInt(0, 20)) + 'px; left:' + (posX + rngInt(0, 40)) + 'px"></div>');
-
+            let rgn = rngInt(1, 100 / critChance)
+            if (rgn == 1) {
+                finalGpc = (gpc + flatClickUpgrades + (gps * rateClickUpgrades)) * critMulti
+                gold = gold + finalGpc
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                var goldAnim = $('<div  class="animation anim" style="top:' + (posY - 10) + 'px; left:' + (posX + rngInt(-25, -5)) + 'px">+' + finalGpc.toFixed(2) + '</div>');
+                var damageAnim = $('<div  class="critDmgAnim anim" style="top:' + (posY + rngInt(0, 20)) + 'px; left:' + (posX + rngInt(0, 40)) + 'px"></div>');
+            } else {
+                finalGpc = gpc + flatClickUpgrades + (gps * rateClickUpgrades)
+                gold = gold + finalGpc
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                var goldAnim = $('<div  class="animation anim" style="top:' + (posY - 10) + 'px; left:' + (posX + rngInt(-25, -5)) + 'px">+' + finalGpc.toFixed(2) + '</div>');
+                var damageAnim = $('<div  class="dmgAnim anim" style="top:' + (posY + rngInt(0, 20)) + 'px; left:' + (posX + rngInt(0, 40)) + 'px"></div>');
+            }
             $('#animations').append(goldAnim);
             $('#animations').append(damageAnim);
             $('#animations').on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", '.anim',
@@ -286,7 +308,10 @@
                 });
 
         }
-
+        //misc global variables
+        var critMulti = 1;
+        var critChance = 1;
+        var afgLimit = 3.6e+6;
         var GAME_TICK = 1; //interval speed
         var gameInterval;
         var smallUpdateTime = 0;
@@ -304,18 +329,27 @@
 
         //Guild Objs-----------
         //elementID, cost, count, costElementClass, CountElementClass, costMultiplier, multiplierFloor, gpsIncrease, tooltip title, tooltip description
-        const newbObj = new guildRecruit(newb, 10, 0, ".newbCost", ".newbCount", 0.5, 0.1, 1, "Newbie", "Ready for their first adventure,\ncomplete with red shirt!\n\n+1 gold per second")
-        const mercObj = new guildRecruit(merc, 100, 0, ".mercCost", ".mercCount", 0.5, 0.15, 5, "Mercenary", "A slightly more experienced adventurer.\nOnly slighty.\n\n+5 gold per second")
-        const koboldObj = new guildRecruit(kobold, 500, 0, ".koboldCost", ".koboldCount", 0.5, 0.15, 25, "Kobold", "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+25 gold per second")
-        const rogueObj = new guildRecruit(rogue, 5000, 0, ".rogueCost", ".rogueCount", 0.4, 0.2, 100, "Rogue", "Stealing gold is literally their job.\n\n+100 gold per second")
-        const proHunterObj = new guildRecruit(proHunter, 50000, 0, ".proHunterCost", ".proHunterCount", 0.05, 0.25, 500, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+500 gold per second\n+1 second-hand embarassment.")
+        const newbObj = new guildRecruit(newb, 10, 0, ".newbCost", ".newbCount", 0.5, 0.1, 0.1, "Newbie", "Ready for their first adventure,\ncomplete with red shirt!\n\n+0.1 gold per second")
+        const mercObj = new guildRecruit(merc, 100, 0, ".mercCost", ".mercCount", 0.5, 0.15, 1, "Mercenary", "A slightly more experienced adventurer.\nOnly slighty.\n\n+1 gold per second")
+        const koboldObj = new guildRecruit(kobold, 500, 0, ".koboldCost", ".koboldCount", 0.5, 0.15, 5, "Kobold", "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+5 gold per second")
+        const rogueObj = new guildRecruit(rogue, 5000, 0, ".rogueCost", ".rogueCount", 0.4, 0.2, 20, "Rogue", "Stealing gold is literally their job.\n\n+20 gold per second")
+        const proHunterObj = new guildRecruit(proHunter, 30000, 0, ".proHunterCost", ".proHunterCount", 0.05, 0.25, 100, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+100 gold per second\n+1 second-hand embarassment.")
         const jRPGProtagObj = new guildRecruit(jRPGProtag, 99999, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.5, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+999 gold per second")
 
         //Item Objs-------------
-        //type, cost, tooltip title, tooltip description
-        const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "Not sure what you were using before...\n\n+1 Gold per click")
-        const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment\n\n+1 Gold per click")
-        const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "Numbers don't lie.\n\n+1 Gold per click")
+        //type, cost, tooltip title, tooltip description, critical chance increase, crit multiplier
+        //Flat Upgrade Items
+        const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "Not sure what you were using before...\n\n+1 Gold per click", 0, 0)
+        const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment\n\n+1 Gold per click\n+25% more gold on crit", 0, 0.25)
+        const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "Numbers don't lie.\n\n+1 Gold per click", 0, 0)
+
+
+        //Rate Upgrade Items
+        const goldenLoopObj = new shopItem(goldenLoop, 10000, "Golden Loop", "Round it goes, gold through and through\nnever ending...\n\n+1% of your GPS per click", 0, 0)
+        const ringOfMidasObj = new shopItem(ringOfMidas, 100000, "Ring of Midas", "Every swing of your sword creates gold!\nWhat even is inflation?!\n\n+1% of your GPS per click", 0, 0)
+
+        //Crit upgrades
+
 
         var ttWindow = QS(".toolTipWindow")
         var gDisplay = QS(".goldDisplay")
@@ -336,7 +370,19 @@
         function updateGold() {
             gold = gold + (gps / 10)
             gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
-            gpsDisplay.innerHTML = `Gold per second : ${gps}`
+            gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
+        }
+
+        function updateGoldAFK(delta) { // delta 500 example... gold + (gps/1000)*delta
+            if (delta <= afgLimit) {
+                gold = gold + (gps / 1000) * delta
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
+            } else {
+                gold = gold + (gps / 1000) * afgLimit
+                gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
+                gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
+            }
         }
 
         function updateOtherStuff() {
@@ -349,6 +395,8 @@
             ironSwordObj.priceCheckItem()
             steelSwordObj.priceCheckItem()
             boneSwordObj.priceCheckItem()
+            goldenLoopObj.priceCheckItem()
+            ringOfMidasObj.priceCheckItem()
             mercObj.reveal()
             koboldObj.reveal()
             rogueObj.reveal()
@@ -356,6 +404,7 @@
             jRPGProtagObj.reveal()
             steelSwordObj.revealItem()
             boneSwordObj.revealItem()
+            ringOfMidasObj.revealItem()
         }
 
         function changeName() {
@@ -372,6 +421,8 @@
                 gps: gps,
                 flatClickUpgrades: flatClickUpgrades,
                 rateClickUpgrades: rateClickUpgrades,
+                critChance: critChance,
+                critMulti: critMulti,
                 newbCost: newbObj.cost,
                 newbCount: newbObj.count,
                 newbClass: newbObj.type.classList.value,
@@ -406,7 +457,6 @@
             if (typeof saveVarCount !== "undefined") {
                 obj.count = saveVarCount
             }
-            console.log(clist)
             if (clist.search("guildHidden") == -1) {
                 obj.update()
             }
@@ -427,6 +477,8 @@
                 if (typeof savegame.gps !== "undefined") gps = savegame.gps;
                 if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
                 if (typeof savegame.rateClickUpgrades !== "undefined") rateClickUpgrades = savegame.rateClickUpgrades;
+                if (typeof savegame.critChance !== "undefined") critChance = savegame.critChance;
+                if (typeof savegame.critMulti !== "undefined") critMulti = savegame.critMulti;
                 if (typeof savegame.playerName !== "undefined") playerName.innerText = savegame.playerName;
                 rLoadTest(savegame.newbCost, savegame.newbCount, newbObj, savegame.newbClass)
                 rLoadTest(savegame.mercCost, savegame.mercCount, mercObj, savegame.mercClass)
@@ -446,8 +498,7 @@
             window.location.reload(false);
         }
 
-        function onGameTick() {
-            // Update the timing
+        function onGameTick() { //The core game interval
             currentInterval = Date.now();
             delta = currentInterval - oldInterval; // currently unused, but can be used in the future to handle things
             oldInterval = currentInterval; // that happen while the game is closed
@@ -460,8 +511,9 @@
                 fpsUpdate = currentInterval;
                 clear();
             }
-
-            if (smallInterval >= 98) {
+            if (delta >= 110) {
+                updateGoldAFK(delta);
+            } else if (smallInterval >= 98) {
                 smallUpdateTime = currentInterval;
                 updateGold();
             }
@@ -483,54 +535,7 @@
                 gameInterval = null;
             }
             gameInterval = setInterval(onGameTick, GAME_TICK); // do the things in onGameTick at the rate of GAME_TICK
-            loadGame();
 
-            $("#options").hide()
-            if (document.getElementById("textJitter").checked) {
-                $(".goldDisplay").css({
-                    "position": "absolute",
-                    "left": "246px"
-                })
-                $(".gpsDisplay").css({
-                    "position": "absolute",
-                    "left": "228px",
-                    "bottom": "3px"
-                })
-            }
-            document.getElementById("updateToggle").checked = false;
-            $("#updateSection").hide()
-
-            $("#optionsBtn").click(function() {
-                $("#options").toggle();
-            })
-            $("#deleteSaveBtn").click(deleteSave)
-            $("#textJitter").change(
-                function() {
-                    if (this.checked) {
-                        $(".goldDisplay").css({
-                            "position": "absolute",
-                            "left": "246px"
-                        })
-                        $(".gpsDisplay").css({
-                            "position": "absolute",
-                            "left": "228px",
-                            "bottom": "3px"
-                        })
-                    } else {
-                        $(".goldDisplay").css({
-                            "position": "static"
-                        })
-                        $(".gpsDisplay").css({
-                            "position": "static"
-                        })
-                    }
-
-                });
-            $("#updateToggle").change(
-                function() {
-                    $("#updateSection").toggle()
-                }
-            )
         }
 
         function onShutdown() {
@@ -540,8 +545,62 @@
             }
         }
 
-
+        //Stuff that happens on page load
         onStartup();
+        loadGame();
+        $("#options").hide()
+        if (document.getElementById("textJitter").checked) {
+            $(".goldDisplay").css({
+                "position": "absolute",
+                "left": "246px"
+            })
+            $(".gpsDisplay").css({
+                "position": "absolute",
+                "left": "228px",
+                "bottom": "3px"
+            })
+        }
+        document.getElementById("updateToggle").checked = false;
+        $("#updateSection").hide()
+
+        $("#optionsBtn").click(function() {
+            $("#options").toggle();
+        })
+        $("#deleteSaveBtn").click(deleteSave)
+        $("#textJitter").change(
+            function() {
+                if (this.checked) {
+                    $(".goldDisplay").css({
+                        "position": "absolute",
+                        "left": "246px"
+                    })
+                    $(".gpsDisplay").css({
+                        "position": "absolute",
+                        "left": "228px",
+                        "bottom": "3px"
+                    })
+                } else {
+                    $(".goldDisplay").css({
+                        "position": "static"
+                    })
+                    $(".gpsDisplay").css({
+                        "position": "static"
+                    })
+                }
+
+            });
+        $("#updateToggle").change(
+            function() {
+                $("#updateSection").toggle()
+            }
+        )
+
+        window.addEventListener("focus", function(event) {
+            onStartup();
+        }, false);
+        window.addEventListener("blur", function(event) {
+            onShutdown();
+        }, false);
     </script>
 </body>
 
