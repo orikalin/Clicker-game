@@ -72,8 +72,11 @@
                     <div id="ironSword" class="ironSword shopItem shadowedItem" onmouseover='ironSwordObj.showToolTip()' onmouseout="ttClear()" onclick="ironSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="steelSword" class="steelSword shopItem shadowedItem shopHidden" onmouseover='steelSwordObj.showToolTip()' onmouseout="ttClear()" onclick="steelSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="boneSword" class="boneSword shopItem shadowedItem shopHidden" onmouseover='boneSwordObj.showToolTip()' onmouseout="ttClear()" onclick="boneSwordObj.buyFlatUpgradeItem()"></div>
+                    <div id="greatSword" class="greatSword shopItem shadowedItem shopHidden" onmouseover='greatSwordObj.showToolTip()' onmouseout="ttClear()" onclick="greatSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="goldenLoop" class="goldenLoop shopItem shadowedItem" onmouseover='goldenLoopObj.showToolTip()' onmouseout="ttClear()" onclick="goldenLoopObj.buyRateUpgradeItem()"></div>
                     <div id="ringOfMidas" class="ringOfMidas shopItem shadowedItem shopHidden" onmouseover='ringOfMidasObj.showToolTip()' onmouseout="ttClear()" onclick="ringOfMidasObj.buyRateUpgradeItem()"></div>
+
+                    <div id="etherealEdge" class="etherealEdge shopItem shadowedItem" onmouseover='etherealEdgeObj.showToolTip()' onmouseout="ttClear()" onclick="etherealEdgeObj.buyRateUpgradeItem()"></div>
                 </div>
             </div>
         </div>
@@ -130,7 +133,13 @@
         <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
-        <ol>Update 2/22/2020
+        <ol><u>Update 2/23/2020</u>
+            <li>Added offline progression, for real this time!</li>
+            <li>updated the placeholder dragon. Not final art.</li>
+            <li>new item art</li>
+            <li>added a few items to the shop</li>
+        </ol>
+        <ol><u>Update 2/22/2020</u>
             <li>Created a solution to progression slowing while tabbed out, as well as offline progression (Limited to 1 hour, but future items/other features will raise this limit!)</li>
             <li>Slowed down progression, added some items to make clicks more meaningful, more to come soon!</li>
             <li>implemented a critical hit system</li>
@@ -337,12 +346,14 @@
         const jRPGProtagObj = new guildRecruit(jRPGProtag, 99999, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.5, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+999 gold per second")
 
         //Item Objs-------------
-        //type, cost, tooltip title, tooltip description, critical chance increase, crit multiplier
+        //type, cost, tooltip title, tooltip description, critical chance increase, additional crit multiplier
         //Flat Upgrade Items
         const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "Not sure what you were using before...\n\n+1 Gold per click", 0, 0)
         const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment\n\n+1 Gold per click\n+25% more gold on crit", 0, 0.25)
-        const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "Numbers don't lie.\n\n+1 Gold per click", 0, 0)
+        const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "Numbers don't lie.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
+        const greatSwordObj = new shopItem(greatSword, 600000, "Great Sword", "It's great.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
 
+        const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+5% crit rate\n+200% more gold on crit", 5, 2)
 
         //Rate Upgrade Items
         const goldenLoopObj = new shopItem(goldenLoop, 10000, "Golden Loop", "Round it goes, gold through and through\nnever ending...\n\n+1% of your GPS per click", 0, 0)
@@ -395,14 +406,17 @@
             ironSwordObj.priceCheckItem()
             steelSwordObj.priceCheckItem()
             boneSwordObj.priceCheckItem()
+            greatSwordObj.priceCheckItem()
             goldenLoopObj.priceCheckItem()
             ringOfMidasObj.priceCheckItem()
+            etherealEdgeObj.priceCheckItem()
             mercObj.reveal()
             koboldObj.reveal()
             rogueObj.reveal()
             proHunterObj.reveal()
             jRPGProtagObj.reveal()
             steelSwordObj.revealItem()
+            greatSwordObj.revealItem()
             boneSwordObj.revealItem()
             ringOfMidasObj.revealItem()
         }
@@ -417,6 +431,7 @@
 
         function saveGame() {
             var save = {
+                oldInterval: oldInterval,
                 gold: gold,
                 gps: gps,
                 flatClickUpgrades: flatClickUpgrades,
@@ -444,6 +459,8 @@
                 ironSword: ironSwordObj.type.classList.value,
                 steelSword: steelSwordObj.type.classList.value,
                 boneSword: boneSwordObj.type.classList.value,
+                greatSword: greatSwordObj.type.classList.value,
+                etherealEdge: etherealEdgeObj.type.classList.value,
                 goldenLoop: goldenLoopObj.type.classList.value,
                 ringOfMidas: ringOfMidasObj.type.classList.value,
                 playerName: playerName.innerText
@@ -475,6 +492,7 @@
         function loadGame() {
             var savegame = JSON.parse(localStorage.getItem("save"));
             if (savegame !== null) {
+                oldInterval = savegame.oldInterval;
                 if (typeof savegame.gold !== "undefined") gold = savegame.gold;
                 if (typeof savegame.gps !== "undefined") gps = savegame.gps;
                 if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
@@ -491,8 +509,11 @@
                 iLoadTest(ironSwordObj, savegame.ironSword)
                 iLoadTest(steelSwordObj, savegame.steelSword)
                 iLoadTest(boneSwordObj, savegame.boneSword)
+                iLoadTest(greatSwordObj, savegame.greatSword)
+                iLoadTest(etherealEdgeObj, savegame.etherealEdge)
                 iLoadTest(goldenLoopObj, savegame.goldenLoop)
                 iLoadTest(ringOfMidasObj, savegame.ringOfMidas)
+
             }
 
         }
@@ -550,8 +571,8 @@
         }
 
         //Stuff that happens on page load
-        onStartup();
         loadGame();
+        onStartup();
         $("#options").hide()
         if (document.getElementById("textJitter").checked) {
             $(".goldDisplay").css({

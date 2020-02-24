@@ -296,8 +296,7 @@ ol {
     width: 300px;
     top: -80px;
     left: -150px;
-    background: url(art/drgnPlaceholder.jpg);
-    opacity: 0.4;
+    background: url(art/dragon.png);
 }
 
 .playerArea {
@@ -519,11 +518,19 @@ ol {
 }
 
 .steelSword {
-    background-image: url(art/ironSword.png);
+    background-image: url(art/steelSword.png);
 }
 
 .boneSword {
-    background-image: url(art/ironSword.png);
+    background-image: url(art/boneSword.png);
+}
+
+.greatSword {
+    background-image: url(art/greatSword.png);
+}
+
+.etherealEdge {
+    background-image: url(art/etherealEdge.png);
 }
 
 .goldenLoop {
@@ -531,7 +538,7 @@ ol {
 }
 
 .ringOfMidas {
-    background-image: url(art/goldenLoop.png);
+    background-image: url(art/ringOfMidas.png);
 }
 
 .itemTT {
@@ -587,8 +594,8 @@ ol {
 
 .critDmgAnim {
     position: absolute;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     z-index: 10002;
     pointer-events: none;
     animation: fallFade 2.0s linear;
