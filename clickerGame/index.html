@@ -431,6 +431,7 @@
 
         function saveGame() {
             var save = {
+                textJitter: document.getElementById("textJitter").checked,
                 oldInterval: oldInterval,
                 gold: gold,
                 gps: gps,
@@ -500,6 +501,7 @@
                 if (typeof savegame.critChance !== "undefined") critChance = savegame.critChance;
                 if (typeof savegame.critMulti !== "undefined") critMulti = savegame.critMulti;
                 if (typeof savegame.playerName !== "undefined") playerName.innerText = savegame.playerName;
+                document.getElementById("textJitter").checked = savegame.textJitter;
                 rLoadTest(savegame.newbCost, savegame.newbCount, newbObj, savegame.newbClass)
                 rLoadTest(savegame.mercCost, savegame.mercCount, mercObj, savegame.mercClass)
                 rLoadTest(savegame.koboldCost, savegame.koboldCount, koboldObj, savegame.koboldClass)
