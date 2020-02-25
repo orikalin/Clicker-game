@@ -5,6 +5,10 @@
     font-style: normal;
 }
 
+.disable-dbl-tap-zoom {
+    touch-action: manipulation;
+}
+
 a:link,
 a:visited {
     color: rgb(241, 145, 1);
