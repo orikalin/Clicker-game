@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="clicker_ss.css">
     <title>dragon clicker</title>
@@ -133,6 +133,10 @@
         <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
+        <ol><u>Update 2/24/2020</u>
+            <li> slapped together a <a href="https://trello.com/b/J6pqmDN8/clicker-game">trello board</a> where you can check out a more in depth list of things that are planned and being worked on</li>
+            <li>updated the dragon art! now slightly animated.</li>
+        </ol>
         <ol><u>Update 2/23/2020</u>
             <li>Added offline progression, for real this time!</li>
             <li>updated the placeholder dragon. Not final art.</li>
@@ -161,8 +165,8 @@
     </div>
     <button id="optionsBtn" class="optionsBtn"></button>
     <div id="options" class="options">
-        <input type="checkbox" checked="" id="textJitter">Gold text jitter off<br>
-        <input type="checkbox" checked="" id="updateToggle">Show update pane<br>
+        <input type="checkbox" id="textJitter">Gold text jitter off<br>
+        <input type="checkbox" id="updateToggle">Show update pane<br>
         <button id="deleteSaveBtn" class="deleteSaveBtn">Delete Save</button>
     </div>
 
@@ -348,12 +352,12 @@
         //Item Objs-------------
         //type, cost, tooltip title, tooltip description, critical chance increase, additional crit multiplier
         //Flat Upgrade Items
-        const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "Not sure what you were using before...\n\n+1 Gold per click", 0, 0)
-        const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment\n\n+1 Gold per click\n+25% more gold on crit", 0, 0.25)
-        const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "Numbers don't lie.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
-        const greatSwordObj = new shopItem(greatSword, 600000, "Great Sword", "It's great.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
+        const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "A basic iron sword. Cheap and effective.\n\n+1 Gold per click", 0, 0)
+        const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment.\n\n+1 Gold per click\n+25% more gold on crit", 0, 0.25)
+        const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "The shop keeper swears it's stronger than steel...\nNumbers don't lie, I guess.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
+        const greatSwordObj = new shopItem(greatSword, 600000, "Great Sword", "It's great.\n\n+1 Gold per click\n+3% crit rate\n+50% more gold on crit", 3, 0.5)
 
-        const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+5% crit rate\n+200% more gold on crit", 5, 2)
+        const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+10% crit rate\n+300% more gold on crit", 10, 3)
 
         //Rate Upgrade Items
         const goldenLoopObj = new shopItem(goldenLoop, 10000, "Golden Loop", "Round it goes, gold through and through\nnever ending...\n\n+1% of your GPS per click", 0, 0)
@@ -470,26 +474,6 @@
             console.log('saved')
         }
 
-        function rLoadTest(saveVarCost, saveVarCount, obj, clist) {
-            if (typeof saveVarCost !== "undefined") {
-                obj.cost = saveVarCost
-            }
-            if (typeof saveVarCount !== "undefined") {
-                obj.count = saveVarCount
-            }
-            if (clist.search("guildHidden") == -1) {
-                obj.update()
-            }
-
-
-        }
-
-        function iLoadTest(obj, clist) {
-            if (typeof clist !== "undefined") {
-                obj.type.classList = clist
-            }
-        }
-
         function loadGame() {
             var savegame = JSON.parse(localStorage.getItem("save"));
             if (savegame !== null) {
@@ -518,6 +502,26 @@
 
             }
 
+        }
+
+        function rLoadTest(saveVarCost, saveVarCount, obj, clist) {
+            if (typeof saveVarCost !== "undefined") {
+                obj.cost = saveVarCost
+            }
+            if (typeof saveVarCount !== "undefined") {
+                obj.count = saveVarCount
+            }
+            if (clist.search("guildHidden") == -1) {
+                obj.update()
+            }
+
+
+        }
+
+        function iLoadTest(obj, clist) {
+            if (typeof clist !== "undefined") {
+                obj.type.classList = clist
+            }
         }
 
         function deleteSave() {
