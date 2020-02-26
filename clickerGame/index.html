@@ -75,6 +75,8 @@
                     <div id="greatSword" class="greatSword shopItem shadowedItem shopHidden" onmouseover='greatSwordObj.showToolTip()' onmouseout="ttClear()" onclick="greatSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="goldenLoop" class="goldenLoop shopItem shadowedItem" onmouseover='goldenLoopObj.showToolTip()' onmouseout="ttClear()" onclick="goldenLoopObj.buyRateUpgradeItem()"></div>
                     <div id="ringOfMidas" class="ringOfMidas shopItem shadowedItem shopHidden" onmouseover='ringOfMidasObj.showToolTip()' onmouseout="ttClear()" onclick="ringOfMidasObj.buyRateUpgradeItem()"></div>
+                    <div id="koboldHat" class="koboldHat shopItem shadowedItem shopHidden" onmouseover='koboldHatObj.showToolTip()' onmouseout="ttClear()" onclick="koboldHatObj.buyGuildUpgrade()"></div>
+
 
                     <div id="etherealEdge" class="etherealEdge shopItem shadowedItem" onmouseover='etherealEdgeObj.showToolTip()' onmouseout="ttClear()" onclick="etherealEdgeObj.buyRateUpgradeItem()"></div>
                 </div>
@@ -85,37 +87,37 @@
             <div class="guildWrapper">
                 <div class="theGuild">
                     <div class="newbTT" onmouseover="newbObj.showToolTip()" onmouseout="ttClear()">
-                        <div id="newb" class="newb shadowed gBevel" onclick="newbObj.buy()">
+                        <div id="newb" class="newb shadowed gBevel" onclick="newbObj.buy()" style="background: url(art/newbieBtn.png)">
                             <div class="newbCount gCount">0</div>
                             <div class="newbCost gCost">10</div>
                         </div>
                     </div>
                     <div class="mercTT" onmouseover="mercObj.showToolTip()" onmouseout="ttClear()">
-                        <div id="merc" class="merc shadowed bStyle gBevel guildHidden" onclick="mercObj.buy()">
+                        <div id="merc" class="merc shadowed bStyle gBevel guildHidden" onclick="mercObj.buy()" style="background: url(art/mercBtn.png)">
                             <div class="mercCount gCount"></div>
                             <div class="mercCost gCost"></div>
                         </div>
                     </div>
                     <div class="koboldsTT" onmouseover="koboldObj.showToolTip()" onmouseout="ttClear()">
-                        <div id="kobold" class="kobold shadowed bStyle gBevel guildHidden" onclick="koboldObj.buy()">
+                        <div id="kobold" class="kobold shadowed bStyle gBevel guildHidden" onclick="koboldObj.buy()" style="background: url(art/koboldBtn.png)">
                             <div class="koboldCount gCount"></div>
                             <div class="koboldCost gCost"></div>
                         </div>
                     </div>
                     <div class="roguesTT" onmouseover="rogueObj.showToolTip()" onmouseout="ttClear()">
-                        <div id="rogue" class="rogue shadowed bStyle gBevel guildHidden" onclick="rogueObj.buy()">
+                        <div id="rogue" class="rogue shadowed bStyle gBevel guildHidden" onclick="rogueObj.buy()" style="background: url(art/rogueBtn.png)">
                             <div class="rogueCount gCount"></div>
                             <div class="rogueCost gCost"></div>
                         </div>
                     </div>
                     <div class="proHunterTT" onmouseover="proHunterObj.showToolTip()" onmouseout="ttClear()">
-                        <div id="proHunter" class="proHunter shadowed bStyle gBevel guildHidden" onclick="proHunterObj.buy()">
+                        <div id="proHunter" class="proHunter shadowed bStyle gBevel guildHidden" onclick="proHunterObj.buy()" style="background: url(art/proHunterBtn.png)">
                             <div class="proHunterCount gCount"></div>
                             <div class="proHunterCost gCost"></div>
                         </div>
                     </div>
                     <div class="jRPGProtagTT" onmouseover="jRPGProtagObj.showToolTip()" onmouseout="ttClear()">
-                        <div id="jRPGProtag" class="jRPGProtag shadowed bStyle gBevel guildHidden" onclick="jRPGProtagObj.buy()">
+                        <div id="jRPGProtag" class="jRPGProtag shadowed bStyle gBevel guildHidden" onclick="jRPGProtagObj.buy()" style="background: url(art/jRPGProtagBtn.png)">
                             <div class="jRPGProtagCount gCount"></div>
                             <div class="jRPGProtagCost gCost"></div>
                         </div>
@@ -133,8 +135,13 @@
         <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
+        <ol><u>Update 2/25/2020</u>
+            <li>Added the framework for guild upgrade items!</li>
+            <li>added kobold hats. very important. Hat styles pending.</li>
+            <li>updated the dragon art slightly</li>
+        </ol>
         <ol><u>Update 2/24/2020</u>
-            <li> slapped together a <a href="https://trello.com/b/J6pqmDN8/clicker-game">trello board</a> where you can check out a more in depth list of things that are planned and being worked on</li>
+            <li>slapped together a <a href="https://trello.com/b/J6pqmDN8/clicker-game">trello board</a> where you can check out a more in depth list of things that are planned and being worked on</li>
             <li>updated the dragon art! now slightly animated.</li>
         </ol>
         <ol><u>Update 2/23/2020</u>
@@ -177,7 +184,7 @@
             return document.querySelector(e)
         }
         class guildRecruit {
-            constructor(type, cost, count, costEle, countEle, costMult, multFloor, gpsI, title, desc) {
+            constructor(type, cost, count, costEle, countEle, costMult, multFloor, gpsI, title, desc1, desc2, desc3) {
                 this.type = type
                 this.cost = cost
                 this.count = count
@@ -187,7 +194,9 @@
                 this.multFloor = multFloor
                 this.gpsI = gpsI
                 this.title = title
-                this.desc = desc
+                this.desc1 = desc1
+                this.desc2 = desc2
+                this.desc3 = desc3
             }
 
             priceCheckGuild() {
@@ -232,18 +241,19 @@
                 ttWindow.childNodes[1].innerText = ""
                 ttWindow.childNodes[2].src = ""
                 ttWindow.childNodes[4].innerText = this.title
-                ttWindow.childNodes[7].innerText = this.desc
+                ttWindow.childNodes[7].innerText = this.desc1 + String(this.desc2) + this.desc3
             }
         }
 
         class shopItem {
-            constructor(type, cost, title, desc, crit, mult) {
+            constructor(type, cost, title, desc, crit, mult, guildObj) {
                 this.type = type
                 this.cost = cost
                 this.title = title
                 this.desc = desc
                 this.crit = crit
                 this.mult = mult
+                this.guildObj = guildObj
             }
             priceCheckItem() {
                 if (this.cost <= gold) {
@@ -281,6 +291,19 @@
                 ttWindow.childNodes[2].src = "art/coinStack.png"
                 ttWindow.childNodes[4].innerText = this.title
                 ttWindow.childNodes[7].innerText = this.desc
+            }
+            buyGuildUpgrade() {
+                if (this.cost <= gold) {
+                    gold = gold - this.cost
+                    gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
+                    gps = gps + (this.guildObj.count * this.guildObj.gpsI)
+                    this.guildObj.gpsI = this.guildObj.gpsI * 2
+                    this.guildObj.desc2 = this.guildObj.desc2 * 2
+                    let str = this.guildObj.type.style.backgroundImage
+                    str = str.slice(0, -6)
+                    this.guildObj.type.style.backgroundImage = `${str}` + `2.png")`
+                    this.type.classList.add("shopDisable")
+                }
             }
         }
 
@@ -341,22 +364,26 @@
         theDragon.addEventListener('click', dClicked)
 
         //Guild Objs-----------
-        //elementID, cost, count, costElementClass, CountElementClass, costMultiplier, multiplierFloor, gpsIncrease, tooltip title, tooltip description
-        const newbObj = new guildRecruit(newb, 10, 0, ".newbCost", ".newbCount", 0.5, 0.1, 0.1, "Newbie", "Ready for their first adventure,\ncomplete with red shirt!\n\n+0.1 gold per second")
-        const mercObj = new guildRecruit(merc, 100, 0, ".mercCost", ".mercCount", 0.5, 0.15, 1, "Mercenary", "A slightly more experienced adventurer.\nOnly slighty.\n\n+1 gold per second")
-        const koboldObj = new guildRecruit(kobold, 500, 0, ".koboldCost", ".koboldCount", 0.5, 0.15, 5, "Kobold", "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+5 gold per second")
-        const rogueObj = new guildRecruit(rogue, 5000, 0, ".rogueCost", ".rogueCount", 0.4, 0.2, 20, "Rogue", "Stealing gold is literally their job.\n\n+20 gold per second")
-        const proHunterObj = new guildRecruit(proHunter, 30000, 0, ".proHunterCost", ".proHunterCount", 0.05, 0.25, 100, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+100 gold per second\n+1 second-hand embarassment.")
-        const jRPGProtagObj = new guildRecruit(jRPGProtag, 99999, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.5, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+999 gold per second")
+        //elementID, cost, count, costElementClass, CountElementClass, costMultiplier, multiplierFloor, gpsIncrease, tooltip title, tooltip description 1 2 3
+        const newbObj = new guildRecruit(newb, 10, 0, ".newbCost", ".newbCount", 0.5, 0.1, 0.1, "Newbie", "Ready for their first adventure,\ncomplete with red shirt!\n\n+", 0.1, " gold per second")
+        const mercObj = new guildRecruit(merc, 100, 0, ".mercCost", ".mercCount", 0.5, 0.15, 1, "Mercenary", "A slightly more experienced adventurer.\nOnly slighty.\n\n+", 1, " gold per second")
+        const koboldObj = new guildRecruit(kobold, 500, 0, ".koboldCost", ".koboldCount", 0.5, 0.15, 5, "Kobold", "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+", 5, " gold per second")
+        const rogueObj = new guildRecruit(rogue, 5000, 0, ".rogueCost", ".rogueCount", 0.4, 0.2, 20, "Rogue", "Stealing gold is literally their job.\n\n+", 20, " gold per second")
+        const proHunterObj = new guildRecruit(proHunter, 30000, 0, ".proHunterCost", ".proHunterCount", 0.05, 0.25, 100, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+", 100, " gold per second\n+1 second-hand embarassment.")
+        const jRPGProtagObj = new guildRecruit(jRPGProtag, 99999, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.5, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+", 999, " gold per second")
 
         //Item Objs-------------
-        //type, cost, tooltip title, tooltip description, critical chance increase, additional crit multiplier
+        //type, cost, tooltip title, tooltip description, critical chance increase, additional crit multiplier, elementid, guildObjName
         //Flat Upgrade Items
         const ironSwordObj = new shopItem(ironSword, 600, "Iron Sword", "A basic iron sword. Cheap and effective.\n\n+1 Gold per click", 0, 0)
         const steelSwordObj = new shopItem(steelSword, 6000, "Steel Sword", "A slight improvment.\n\n+1 Gold per click\n+25% more gold on crit", 0, 0.25)
         const boneSwordObj = new shopItem(boneSword, 60000, "Bone Sword", "The shop keeper swears it's stronger than steel...\nNumbers don't lie, I guess.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
         const greatSwordObj = new shopItem(greatSword, 600000, "Great Sword", "It's great.\n\n+1 Gold per click\n+3% crit rate\n+50% more gold on crit", 3, 0.5)
 
+        //guild upgrades
+        const koboldHatObj = new shopItem(koboldHat, 30000, "Fancy Hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj)
+
+        //the final item
         const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+10% crit rate\n+300% more gold on crit", 10, 3)
 
         //Rate Upgrade Items
@@ -413,6 +440,7 @@
             greatSwordObj.priceCheckItem()
             goldenLoopObj.priceCheckItem()
             ringOfMidasObj.priceCheckItem()
+            koboldHatObj.priceCheckItem()
             etherealEdgeObj.priceCheckItem()
             mercObj.reveal()
             koboldObj.reveal()
@@ -423,6 +451,7 @@
             greatSwordObj.revealItem()
             boneSwordObj.revealItem()
             ringOfMidasObj.revealItem()
+            koboldHatObj.revealItem()
         }
 
         function changeName() {
@@ -446,21 +475,39 @@
                 newbCost: newbObj.cost,
                 newbCount: newbObj.count,
                 newbClass: newbObj.type.classList.value,
+                newbGpsI: newbObj.gpsI,
+                newbTT: newbObj.desc2,
+                newbImg: newbObj.type.style.backgroundImage,
                 mercCost: mercObj.cost,
                 mercCount: mercObj.count,
                 mercClass: mercObj.type.classList.value,
+                mercGpsI: mercObj.gpsI,
+                mercTT: mercObj.desc2,
+                mercImg: mercObj.type.style.backgroundImage,
                 koboldCost: koboldObj.cost,
                 koboldCount: koboldObj.count,
                 koboldClass: koboldObj.type.classList.value,
+                koboldGpsI: koboldObj.gpsI,
+                koboldTT: koboldObj.desc2,
+                koboldImg: koboldObj.type.style.backgroundImage,
                 rogueCost: rogueObj.cost,
                 rogueCount: rogueObj.count,
                 rogueClass: rogueObj.type.classList.value,
+                rogueGpsI: rogueObj.gpsI,
+                rogueTT: rogueObj.desc2,
+                rogueImg: rogueObj.type.style.backgroundImage,
                 proHunterCost: proHunterObj.cost,
                 proHunterCount: proHunterObj.count,
                 proHunterClass: proHunterObj.type.classList.value,
+                proHunterGpsI: proHunterObj.gpsI,
+                proHunterTT: proHunterObj.desc2,
+                proHunterImg: proHunterObj.type.style.backgroundImage,
                 jRPGProtagCost: jRPGProtagObj.cost,
                 jRPGProtagCount: jRPGProtagObj.count,
                 jRPGProtagClass: jRPGProtagObj.type.classList.value,
+                jRPGProtagGpsI: jRPGProtagObj.gpsI,
+                jRPGProtagTT: jRPGProtagObj.desc2,
+                jRPGProtagImg: jRPGProtagObj.type.style.backgroundImage,
                 ironSword: ironSwordObj.type.classList.value,
                 steelSword: steelSwordObj.type.classList.value,
                 boneSword: boneSwordObj.type.classList.value,
@@ -468,10 +515,11 @@
                 etherealEdge: etherealEdgeObj.type.classList.value,
                 goldenLoop: goldenLoopObj.type.classList.value,
                 ringOfMidas: ringOfMidasObj.type.classList.value,
+                koboldHat: koboldHatObj.type.classList.value,
                 playerName: playerName.innerText
             }
             localStorage.setItem("save", JSON.stringify(save));
-            console.log('saved')
+            //console.log('saved')
         }
 
         function loadGame() {
@@ -486,12 +534,12 @@
                 if (typeof savegame.critMulti !== "undefined") critMulti = savegame.critMulti;
                 if (typeof savegame.playerName !== "undefined") playerName.innerText = savegame.playerName;
                 document.getElementById("textJitter").checked = savegame.textJitter;
-                rLoadTest(savegame.newbCost, savegame.newbCount, newbObj, savegame.newbClass)
-                rLoadTest(savegame.mercCost, savegame.mercCount, mercObj, savegame.mercClass)
-                rLoadTest(savegame.koboldCost, savegame.koboldCount, koboldObj, savegame.koboldClass)
-                rLoadTest(savegame.rogueCost, savegame.rogueCount, rogueObj, savegame.rogueClass)
-                rLoadTest(savegame.proHunterCost, savegame.proHunterCount, proHunterObj, savegame.proHunterClass)
-                rLoadTest(savegame.jRPGProtagCost, savegame.jRPGProtagCount, jRPGProtagObj, savegame.jRPGProtagClass)
+                rLoadTest(savegame.newbCost, savegame.newbCount, newbObj, savegame.newbClass, savegame.newbGpsI, savegame.newbTT, savegame.newbImg)
+                rLoadTest(savegame.mercCost, savegame.mercCount, mercObj, savegame.mercClass, savegame.mercGpsI, savegame.mercTT, savegame.mercImg)
+                rLoadTest(savegame.koboldCost, savegame.koboldCount, koboldObj, savegame.koboldClass, savegame.koboldGpsI, savegame.koboldTT, savegame.koboldImg)
+                rLoadTest(savegame.rogueCost, savegame.rogueCount, rogueObj, savegame.rogueClass, savegame.rogueGpsI, savegame.rogueTT, savegame.rogueImg)
+                rLoadTest(savegame.proHunterCost, savegame.proHunterCount, proHunterObj, savegame.proHunterClass, savegame.proHunterGpsI, savegame.proHunterTT, savegame.proHunterImg)
+                rLoadTest(savegame.jRPGProtagCost, savegame.jRPGProtagCount, jRPGProtagObj, savegame.jRPGProtagClass, savegame.jRPGProtagGpsI, savegame.jRPGProtagTT, savegame.jRPGProtagImg)
                 iLoadTest(ironSwordObj, savegame.ironSword)
                 iLoadTest(steelSwordObj, savegame.steelSword)
                 iLoadTest(boneSwordObj, savegame.boneSword)
@@ -499,17 +547,28 @@
                 iLoadTest(etherealEdgeObj, savegame.etherealEdge)
                 iLoadTest(goldenLoopObj, savegame.goldenLoop)
                 iLoadTest(ringOfMidasObj, savegame.ringOfMidas)
+                iLoadTest(koboldHatObj, savegame.koboldHat)
+
 
             }
 
         }
 
-        function rLoadTest(saveVarCost, saveVarCount, obj, clist) {
+        function rLoadTest(saveVarCost, saveVarCount, obj, clist, gpsi, tt, img) {
             if (typeof saveVarCost !== "undefined") {
                 obj.cost = saveVarCost
             }
             if (typeof saveVarCount !== "undefined") {
                 obj.count = saveVarCount
+            }
+            if (typeof gpsi !== "undefined") {
+                obj.gpsI = gpsi
+            }
+            if (typeof tt !== "undefined") {
+                obj.desc2 = tt
+            }
+            if (typeof img !== "undefined") {
+                obj.type.style.backgroundImage = img
             }
             if (clist.search("guildHidden") == -1) {
                 obj.update()
@@ -580,6 +639,7 @@
         loadGame();
         onStartup();
         $("#options").hide()
+
         if (document.getElementById("textJitter").checked) {
             $(".goldDisplay").css({
                 "position": "absolute",
@@ -591,12 +651,13 @@
                 "bottom": "3px"
             })
         }
-        document.getElementById("updateToggle").checked = false;
-        $("#updateSection").hide()
+        document.getElementById("updateToggle").checked = true;
+        //$("#updateSection").hide()
 
         $("#optionsBtn").click(function() {
             $("#options").toggle();
         })
+
         $("#deleteSaveBtn").click(deleteSave)
         $("#textJitter").change(
             function() {
