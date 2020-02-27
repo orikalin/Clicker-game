@@ -56,6 +56,7 @@ li {
 }
 
 ol {
+    font-weight: normal;
     margin: 5px;
     padding: 10px;
     list-style: circle;
@@ -81,6 +82,12 @@ ol {
 .donationBtn {
     position: absolute;
     right: 5px;
+    top: 5px;
+}
+
+.trelloBtn {
+    position: absolute;
+    left: 5px;
     top: 5px;
 }
 
@@ -491,6 +498,7 @@ ol {
 
 .shopItem {
     background-color: rgb(64, 76, 99);
+    background-image: url(art/default.png);
     float: left;
     width: 50px;
     height: 50px;
@@ -522,8 +530,16 @@ ol {
     background-image: url(art/goldenLoop.png);
 }
 
-.koboldHat {
-    background-image: url(art/koboldHat.png);
+.koboldHat1 {
+    background-image: url(art/koboldHat1.png);
+}
+
+.koboldHat2 {
+    background-image: url(art/koboldHat2.png);
+}
+
+.koboldHat3 {
+    background-image: url(art/koboldHat3.png);
 }
 
 .ringOfMidas {
