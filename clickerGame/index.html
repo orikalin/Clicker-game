@@ -355,9 +355,11 @@
                     gps = gps + (this.guildObj.count * this.guildObj.gpsI)
                     this.guildObj.gpsI = this.guildObj.gpsI * 2
                     this.guildObj.desc2 = this.guildObj.desc2 * 2
-                    let str = this.guildObj.type.style.backgroundImage
-                    str = str.slice(0, -7)
-                    this.guildObj.type.style.backgroundImage = `${str}` + `${this.upgradeTier}` + `.png")`
+                    if (typeof this.upgradeTier !== "undefined") {
+                        let str = this.guildObj.type.style.backgroundImage
+                        str = str.slice(0, -7)
+                        this.guildObj.type.style.backgroundImage = `${str}` + `${this.upgradeTier}` + `.png")`
+                    }
                     this.type.classList.add("shopDisable")
                 }
             }
@@ -420,8 +422,8 @@
         const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+10% crit rate\n+300% more gold on crit", 10, 3)
 
         //guild upgrades
-        const newbManual1Obj = new shopItem(newbManual1, 10, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, newbObj, 10, 01)
-        const newbManual2Obj = new shopItem(newbManual2, 50, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20, 02)
+        const newbManual1Obj = new shopItem(newbManual1, 10, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, newbObj, 10)
+        const newbManual2Obj = new shopItem(newbManual2, 50, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20)
 
         const koboldHat1Obj = new shopItem(koboldHat1, 10000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 01)
         const koboldHat2Obj = new shopItem(koboldHat2, 20000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 02)
