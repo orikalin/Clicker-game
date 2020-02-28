@@ -135,7 +135,7 @@ ol {
 
 .hBorder1 {
     top: 500px;
-    width: 600px;
+    width: 910px;
 }
 
 .hBorder2 {
@@ -168,11 +168,11 @@ ol {
 .borderPinHL1 {
     z-index: 10002;
     position: absolute;
-    left: 589px;
+    left: 584px;
     top: 486px;
     height: 41px;
-    width: 21px;
-    background: url(art/borderPinHL.png);
+    width: 40px;
+    background: url(art/borderPinFull.png);
 }
 
 .borderPinHL2 {
@@ -195,7 +195,8 @@ ol {
     background: url(art/borderPinHR.png);
 }
 
-.borderPinFull {
+.borderPinFull,
+.borderPinHL3 {
     z-index: 600;
     position: absolute;
     left: 895px;
@@ -203,6 +204,13 @@ ol {
     height: 41px;
     width: 40px;
     background: url(art/borderPinFull.png);
+}
+
+.borderPinHL3 {
+    top: 486px;
+    left: 899px;
+    width: 21px;
+    background: url(art/borderPinHL.png);
 }
 
 .borderPinBot1,
@@ -387,7 +395,55 @@ ol {
     position: absolute;
     top: 160px;
     width: 300px;
-    height: 600px;
+    height: 340px;
+}
+
+.inventoryWrapper {
+    position: absolute;
+    top: 510px;
+    width: 300px;
+    height: 250px;
+    background-color: rgb(59, 64, 73);
+}
+
+.inventoryTabs {
+    position: absolute;
+    height: 20px;
+    width: 300px;
+    background-color: rgb(144, 160, 189);
+}
+
+.playerTab {
+    position: absolute;
+    z-index: 301;
+    width: 300px;
+    height: 20px;
+    background-image: url(art/playerTab.png)
+}
+
+.upgradeTab {
+    position: absolute;
+    z-index: 300;
+    width: 300px;
+    height: 20px;
+    background-image: url(art/upgradeTab.png)
+}
+
+.playerInventory,
+.upgradeInventory {
+    position: absolute;
+    top: 20px;
+    height: 230px;
+    width: 300px;
+    background-color: rgb(59, 64, 73);
+}
+
+.playerInventory {
+    z-index: 301;
+}
+
+.upgradeInventory {
+    z-index: 300;
 }
 
 .theShop {
@@ -571,6 +627,11 @@ ol {
     width: 0;
     pointer-events: none;
     background: none;
+}
+
+.inInventory {
+    border: 5px solid rgb(161, 126, 72);
+    border-style: groove;
 }
 
 #animations {

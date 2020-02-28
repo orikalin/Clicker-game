@@ -15,12 +15,12 @@
     <div class="nav" id="nav"></div>
 
     <div class="wrapper" id="wrapper">
-        <canvas id="canvasDragon" class="canvasDragon" width="600" height="500"></canvas>
         <div class="borderPins">
             <div class="borderPinHL1"></div>
             <div class="borderPinHL2"></div>
             <div class="borderPinHR1"></div>
             <div class="borderPinFull"></div>
+            <div class="borderPinHL3"></div>
             <div class="borderPinBot1"></div>
             <div class="borderPinBot2"></div>
             <div class="borderPinBot3"></div>
@@ -77,6 +77,14 @@
                     <div id="ringOfMidas" class="ringOfMidas shopItem shadowedItem shopHidden" onmouseover='ringOfMidasObj.showToolTip()' onmouseout="ttClear()" onclick="ringOfMidasObj.buyRateUpgradeItem()"></div>
                     <div id="newbManual1" class="newbManual1 shopItem shadowedItem shopHidden" onmouseover='newbManual1Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual1Obj.buyGuildUpgrade()"></div>
                     <div id="newbManual2" class="newbManual2 shopItem shadowedItem shopHidden" onmouseover='newbManual2Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual2Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual3" class="newbManual3 shopItem shadowedItem shopHidden" onmouseover='newbManual3Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual3Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual4" class="newbManual4 shopItem shadowedItem shopHidden" onmouseover='newbManual4Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual4Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual5" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual5Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual5Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual6" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual6Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual6Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual7" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual7Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual7Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual8" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual8Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual8Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual9" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual9Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual9Obj.buyGuildUpgrade()"></div>
+                    <div id="newbManual10" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual10Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual10Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat1" class="koboldHat1 shopItem shadowedItem shopHidden" onmouseover='koboldHat1Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat1Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat2" class="koboldHat2 shopItem shadowedItem shopHidden" onmouseover='koboldHat2Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat2Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat3" class="koboldHat3 shopItem shadowedItem shopHidden" onmouseover='koboldHat3Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat3Obj.buyGuildUpgrade()"></div>
@@ -84,6 +92,14 @@
 
                     <div id="etherealEdge" class="etherealEdge shopItem shadowedItem" onmouseover='etherealEdgeObj.showToolTip()' onmouseout="ttClear()" onclick="etherealEdgeObj.buyRateUpgradeItem()"></div>
                 </div>
+            </div>
+            <div id="inventoryWrapper" class="inventoryWrapper">
+                <div id="inventoryTabs" class="inventoryTabs">
+                    <div id="playerTab" class="playerTab" onclick="tabSwap(1)"></div>
+                    <div id="upgradeTab" class="upgradeTab" onclick="tabSwap(2)"></div>
+                </div>
+                <div id="playerInventory" class="playerInventory"></div>
+                <div id="upgradeInventory" class="upgradeInventory"></div>
             </div>
         </div>
         <div id="guildSection" class="guildSection">
@@ -219,11 +235,6 @@
         var gps = 0
         var flatClickUpgrades = 0
         var rateClickUpgrades = 0
-
-        var dCanvas = document.getElementById("canvasDragon")
-        var ctx = dCanvas.getContext("2d")
-        ctx.font = "30px IMMORTAL"
-        ctx.fillStyle = 'white';
         const theDragon = document.getElementById("theDragon")
         theDragon.addEventListener('click', dClicked)
 
@@ -319,7 +330,9 @@
                     flatClickUpgrades++
                     critChance = critChance + this.crit
                     critMulti = critMulti + this.mult
-                    this.type.classList.add("shopDisable")
+                    this.type.classList.add("inInventory")
+                    $('.playerInventory').append(this.type)
+                    this.type.removeAttribute("onclick")
                 }
             }
             buyRateUpgradeItem() {
@@ -328,7 +341,9 @@
                     rateClickUpgrades = rateClickUpgrades + 0.01
                     critChance = critChance + this.crit
                     critMulti = critMulti + this.mult
-                    this.type.classList.add("shopDisable")
+                    this.type.classList.add("inInventory")
+                    $('.playerInventory').append(this.type)
+                    this.type.removeAttribute("onclick")
                 }
             }
             revealItem() {
@@ -360,7 +375,9 @@
                         str = str.slice(0, -7)
                         this.guildObj.type.style.backgroundImage = `${str}` + `${this.upgradeTier}` + `.png")`
                     }
-                    this.type.classList.add("shopDisable")
+                    this.type.classList.add("inInventory")
+                    $('.upgradeInventory').append(this.type)
+                    this.type.removeAttribute("onclick")
                 }
             }
         }
@@ -424,26 +441,30 @@
         //guild upgrades
         const newbManual1Obj = new shopItem(newbManual1, 10, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, newbObj, 10)
         const newbManual2Obj = new shopItem(newbManual2, 50, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20)
+        const newbManual3Obj = new shopItem(newbManual3, 100, "Yolo's guide to monsters", "Not the best strategies, but it has nice art.\n\nNewbies are twice as efficient", 0, 0, newbObj, 30)
+        const newbManual4Obj = new shopItem(newbManual4, 200, "Xantac's guide to everything", "Everything you did, and didn't need to know,\nand then some.\n\nNewbies are twice as efficient", 0, 0, newbObj, 40)
+        const newbManual5Obj = new shopItem(newbManual5, 300, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 50)
+        const newbManual6Obj = new shopItem(newbManual6, 400, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 60)
+        const newbManual7Obj = new shopItem(newbManual7, 500, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 70)
+        const newbManual8Obj = new shopItem(newbManual8, 1000, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 80)
+        const newbManual9Obj = new shopItem(newbManual9, 2000, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 90)
+        const newbManual10Obj = new shopItem(newbManual10, 8000, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
 
-        const koboldHat1Obj = new shopItem(koboldHat1, 10000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 01)
-        const koboldHat2Obj = new shopItem(koboldHat2, 20000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 02)
-        const koboldHat3Obj = new shopItem(koboldHat3, 30000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 03)
+        const koboldHat1Obj = new shopItem(koboldHat1, 10000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
+        const koboldHat2Obj = new shopItem(koboldHat2, 20000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
+        const koboldHat3Obj = new shopItem(koboldHat3, 30000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 3)
 
         //Object arrays for updates and save/load
         const guildObjs = [newbObj, mercObj, koboldObj, rogueObj, proHunterObj, jRPGProtagObj]
         const playerItemObjs = [ironSwordObj, steelSwordObj, boneSwordObj, greatSwordObj, goldenLoopObj, ringOfMidasObj, etherealEdgeObj]
-        const guildItemObjs = [newbManual1Obj, newbManual2Obj, koboldHat1Obj, koboldHat2Obj, koboldHat3Obj]
+        const guildItemObjs = [newbManual1Obj, newbManual2Obj, newbManual3Obj, newbManual4Obj, newbManual5Obj, newbManual6Obj, newbManual7Obj, newbManual8Obj, newbManual9Obj, newbManual10Obj, koboldHat1Obj, koboldHat2Obj, koboldHat3Obj]
 
-        const patchVersion = 0.01
+        const patchVersion = 0.02
 
 
         //Misc Functions------------------------------------------
         function changeName() {
             playerName.innerText = prompt("What is your name?")
-        }
-
-        function clear() {
-            ctx.clearRect(0, 0, dCanvas.width, dCanvas.height)
         }
 
         function ttClear() {
@@ -454,6 +475,19 @@
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+        }
+
+        function tabSwap(v) {
+            switch (v) {
+                case 1:
+                    QS(".playerTab").style = "z-index:299;"
+                    QS(".playerInventory").style = "z-index:299;"
+                    break;
+                case 2:
+                    QS(".playerTab").style = "z-index:301;"
+                    QS(".playerInventory").style = "z-index:301;"
+                    break;
+            }
         }
         //--------------------------------------------------------
 
@@ -470,7 +504,6 @@
             saveInterval = currentInterval - saveUpdateTime;
             if (fpsInterval >= 1000 / 30) {
                 fpsUpdate = currentInterval;
-                clear();
             }
             if (delta >= 110) {
                 updateGoldAFK(delta);
@@ -539,6 +572,7 @@
                 rateClickUpgrades: rateClickUpgrades,
                 critChance: critChance,
                 critMulti: critMulti,
+                shopSection: document.getElementById('shopSection').innerHTML,
 
                 //------------recruits
                 guildSaves: guildObjs,
@@ -561,6 +595,7 @@
                     return;
                 }
                 oldInterval = savegame.oldInterval;
+                document.getElementById('shopSection').innerHTML = savegame.shopSection;
                 if (typeof savegame.gold !== "undefined") gold = savegame.gold;
                 if (typeof savegame.gps !== "undefined") gps = savegame.gps;
                 if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
