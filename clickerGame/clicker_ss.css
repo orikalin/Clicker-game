@@ -413,12 +413,21 @@ ol {
     background-color: rgb(144, 160, 189);
 }
 
+.markerTab {
+    position: absolute;
+    pointer-events: none;
+    z-index: 302;
+    width: 300px;
+    height: 20px;
+    background-image: url(art/inventoryTabs.png);
+}
+
 .playerTab {
     position: absolute;
     z-index: 301;
     width: 300px;
     height: 20px;
-    background-image: url(art/playerTab.png)
+    background-image: url(art/playerTab.png);
 }
 
 .upgradeTab {
@@ -426,7 +435,7 @@ ol {
     z-index: 300;
     width: 300px;
     height: 20px;
-    background-image: url(art/upgradeTab.png)
+    background-image: url(art/upgradeTab.png);
 }
 
 .playerInventory,

@@ -85,6 +85,11 @@
                     <div id="newbManual8" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual8Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual8Obj.buyGuildUpgrade()"></div>
                     <div id="newbManual9" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual9Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual9Obj.buyGuildUpgrade()"></div>
                     <div id="newbManual10" class="newbManual5 shopItem shadowedItem shopHidden" onmouseover='newbManual10Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual10Obj.buyGuildUpgrade()"></div>
+                    <div id="mercGear1" class="mercGear1 shopItem shadowedItem shopHidden" onmouseover='mercGear1Obj.showToolTip()' onmouseout="ttClear()" onclick="mercGear1Obj.buyGuildUpgrade()"></div>
+                    <div id="mercGear2" class="mercGear2 shopItem shadowedItem shopHidden" onmouseover='mercGear2Obj.showToolTip()' onmouseout="ttClear()" onclick="mercGear2Obj.buyGuildUpgrade()"></div>
+                    <div id="mercGear3" class="mercGear3 shopItem shadowedItem shopHidden" onmouseover='mercGear3Obj.showToolTip()' onmouseout="ttClear()" onclick="mercGear3Obj.buyGuildUpgrade()"></div>
+                    <div id="mercGear4" class="mercGear4 shopItem shadowedItem shopHidden" onmouseover='mercGear4Obj.showToolTip()' onmouseout="ttClear()" onclick="mercGear4Obj.buyGuildUpgrade()"></div>
+                    <div id="mercGear5" class="mercGear5 shopItem shadowedItem shopHidden" onmouseover='mercGear5Obj.showToolTip()' onmouseout="ttClear()" onclick="mercGear5Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat1" class="koboldHat1 shopItem shadowedItem shopHidden" onmouseover='koboldHat1Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat1Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat2" class="koboldHat2 shopItem shadowedItem shopHidden" onmouseover='koboldHat2Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat2Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat3" class="koboldHat3 shopItem shadowedItem shopHidden" onmouseover='koboldHat3Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat3Obj.buyGuildUpgrade()"></div>
@@ -159,6 +164,10 @@
         <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
+        <ol><b><u>Update 2/27/2020</u></b>
+            <li>Added an inventory panel, where you can see purchased items and guild upgrades!</li>
+            <li>added lots of items! Every 10 of a recruit you hire unlocks a new item, item names/descriptions pending.</li>
+        </ol>
         <ol><u><b>Update 2/26/2020</u></b>
             <li>Expanded on the guild upgrade framework to make way for multiple tiers of upgrades! What does this mean? MORE KOBOLD HATS!</li>
             <li>added more kobold hats.</li>
@@ -444,12 +453,18 @@
         const newbManual2Obj = new shopItem(newbManual2, 50, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20)
         const newbManual3Obj = new shopItem(newbManual3, 100, "Yolo's guide to monsters", "Not the best strategies, but it has nice art.\n\nNewbies are twice as efficient", 0, 0, newbObj, 30)
         const newbManual4Obj = new shopItem(newbManual4, 200, "Xantac's guide to everything", "Everything you did, and didn't need to know,\nand then some.\n\nNewbies are twice as efficient", 0, 0, newbObj, 40)
-        const newbManual5Obj = new shopItem(newbManual5, 300, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 50)
-        const newbManual6Obj = new shopItem(newbManual6, 400, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 60)
+        const newbManual5Obj = new shopItem(newbManual5, 300, "A druids guide to healing", "Teach your newbies to cure wounds!\n\nNewbies are twice as efficient", 0, 0, newbObj, 50)
+        const newbManual6Obj = new shopItem(newbManual6, 400, "Guide to necromancy", "When its too late for healing...\n\nNewbies are twice as efficient", 0, 0, newbObj, 60)
         const newbManual7Obj = new shopItem(newbManual7, 500, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 70)
         const newbManual8Obj = new shopItem(newbManual8, 1000, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 80)
         const newbManual9Obj = new shopItem(newbManual9, 2000, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 90)
         const newbManual10Obj = new shopItem(newbManual10, 8000, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
+
+        const mercGear1Obj = new shopItem(mercGear1, 1000, "Cheap swords", "Slightly better than what they were using.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 10)
+        const mercGear2Obj = new shopItem(mercGear2, 2000, "Cheap shields", "Best to be prepared!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 20)
+        const mercGear3Obj = new shopItem(mercGear3, 6000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 30)
+        const mercGear4Obj = new shopItem(mercGear4, 10000, "Blue tunics", "They might not get eaten now!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 40)
+        const mercGear5Obj = new shopItem(mercGear5, 20000, "Knight's visor", "Sturdy, reliable, and knightly.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 50)
 
         const koboldHat1Obj = new shopItem(koboldHat1, 10000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
         const koboldHat2Obj = new shopItem(koboldHat2, 20000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
@@ -457,10 +472,18 @@
 
         //Object arrays for updates and save/load
         const guildObjs = [newbObj, mercObj, koboldObj, rogueObj, proHunterObj, jRPGProtagObj]
-        const playerItemObjs = [ironSwordObj, steelSwordObj, boneSwordObj, greatSwordObj, goldenLoopObj, ringOfMidasObj, etherealEdgeObj]
-        const guildItemObjs = [newbManual1Obj, newbManual2Obj, newbManual3Obj, newbManual4Obj, newbManual5Obj, newbManual6Obj, newbManual7Obj, newbManual8Obj, newbManual9Obj, newbManual10Obj, koboldHat1Obj, koboldHat2Obj, koboldHat3Obj]
+        const playerItemObjs = [
+            ironSwordObj, steelSwordObj, boneSwordObj, greatSwordObj,
+            goldenLoopObj, ringOfMidasObj,
+            etherealEdgeObj
+        ]
+        const guildItemObjs = [
+            newbManual1Obj, newbManual2Obj, newbManual3Obj, newbManual4Obj, newbManual5Obj, newbManual6Obj, newbManual7Obj, newbManual8Obj, newbManual9Obj, newbManual10Obj,
+            mercGear1Obj, mercGear2Obj, mercGear3Obj, mercGear4Obj, mercGear5Obj,
+            koboldHat1Obj, koboldHat2Obj, koboldHat3Obj
+        ]
 
-        const patchVersion = 0.03
+        const patchVersion = 0.04
 
 
         //Misc Functions------------------------------------------
@@ -573,7 +596,6 @@
                 rateClickUpgrades: rateClickUpgrades,
                 critChance: critChance,
                 critMulti: critMulti,
-                shopSection: document.getElementById('shopSection').innerHTML,
 
                 //------------recruits
                 guildSaves: guildObjs,
@@ -596,7 +618,6 @@
                     return;
                 }
                 oldInterval = savegame.oldInterval;
-                document.getElementById('shopSection').innerHTML = savegame.shopSection;
                 if (typeof savegame.gold !== "undefined") gold = savegame.gold;
                 if (typeof savegame.gps !== "undefined") gps = savegame.gps;
                 if (typeof savegame.flatClickUpgrades !== "undefined") flatClickUpgrades = savegame.flatClickUpgrades;
@@ -609,7 +630,7 @@
                 savegame.guildClassLists.forEach((e, i) => cLoadTest(e, i, guildObjs))
                 savegame.guildBGs.forEach((e, i) => imgLoadTest(e, i, guildObjs))
                 savegame.playerItems.forEach((e, i) => piLoadTest(e, i, playerItemObjs))
-                savegame.upgradeItems.forEach((e, i) => piLoadTest(e, i, guildItemObjs))
+                savegame.upgradeItems.forEach((e, i) => giLoadTest(e, i, guildItemObjs))
             }
 
         }
@@ -644,6 +665,20 @@
         function piLoadTest(e, i, obj) {
             if (typeof e !== "undefined") {
                 obj[i].type.classList = e
+                if (e.search("inInventory") !== -1) {
+                    $('.playerInventory').append(obj[i].type)
+                    obj[i].type.removeAttribute("onclick")
+                }
+            }
+        }
+
+        function giLoadTest(e, i, obj) {
+            if (typeof e !== "undefined") {
+                obj[i].type.classList = e
+                if (e.search("inInventory") !== -1) {
+                    $('.upgradeInventory').append(obj[i].type)
+                    obj[i].type.removeAttribute("onclick")
+                }
             }
         }
 
