@@ -177,6 +177,10 @@
         <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
+        <ol><u><b>Update 2/29/2020</b></u>
+            <li>Pushing out an early day, early game balance update, just testing waters a little.</li>
+            <li>if you'd like to provide any feedback, feel free to <a href="https://twitter.com/Amortes1">drop me a tweet!</a></li>
+        </ol>
         <ol><b><u>Update 2/27/2020</u></b>
             <li>Added an inventory panel, where you can see purchased items and guild upgrades!</li>
             <li>added lots of items! Every 10 of a recruit you hire unlocks a new item, to an extent. item names/descriptions pending, and many more to come!</li>
@@ -234,7 +238,7 @@
 
     <script>
         //misc global variables
-        var critMulti = 1;
+        var critMulti = 2;
         var critChance = 1;
         var afgLimit = 3.6e+6;
         var GAME_TICK = 1; //interval speed
@@ -453,8 +457,8 @@
         const greatSwordObj = new shopItem(greatSword, 300000, "Great Sword", "It's great.\n\n+1 Gold per click\n+3% crit rate\n+50% more gold on crit", 3, 0.5)
 
         //Rate Upgrade Items
-        const goldenLoopObj = new shopItem(goldenLoop, 10000, "Golden Loop", "Round it goes, gold through and through\nnever ending...\n\n+1% of your GPS per click", 0, 0)
-        const ringOfMidasObj = new shopItem(ringOfMidas, 100000, "Ring of Midas", "Every swing of your sword creates gold!\nWhat even is inflation?!\n\n+1% of your GPS per click", 0, 0)
+        const goldenLoopObj = new shopItem(goldenLoop, 15000, "Golden Loop", "Round it goes, gold through and through\nnever ending...\n\n+1% of your GPS per click", 0, 0)
+        const ringOfMidasObj = new shopItem(ringOfMidas, 250000, "Ring of Midas", "Every swing of your sword creates gold!\nWhat even is inflation?!\n\n+1% of your GPS per click", 0, 0)
 
         //Crit upgrades
 
@@ -462,26 +466,26 @@
         const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+10% crit rate\n+300% more gold on crit", 10, 3)
 
         //guild upgrades
-        const newbManual1Obj = new shopItem(newbManual1, 10, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, newbObj, 10)
-        const newbManual2Obj = new shopItem(newbManual2, 50, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20)
-        const newbManual3Obj = new shopItem(newbManual3, 100, "Yolo's guide to monsters", "Not the best strategies, but it has nice art.\n\nNewbies are twice as efficient", 0, 0, newbObj, 30)
-        const newbManual4Obj = new shopItem(newbManual4, 200, "Xantac's guide to everything", "Everything you did, and didn't need to know,\nand then some.\n\nNewbies are twice as efficient", 0, 0, newbObj, 40)
-        const newbManual5Obj = new shopItem(newbManual5, 300, "A druids guide to healing", "Teach your newbies to cure wounds!\n\nNewbies are twice as efficient", 0, 0, newbObj, 50)
-        const newbManual6Obj = new shopItem(newbManual6, 400, "Guide to necromancy", "When its too late for healing...\n\nNewbies are twice as efficient", 0, 0, newbObj, 60)
-        const newbManual7Obj = new shopItem(newbManual7, 500, "Introduction to spellcasting", "Contains useful offensive spells such as fireball,\nand water...\n\nNewbies are twice as efficient", 0, 0, newbObj, 70)
-        const newbManual8Obj = new shopItem(newbManual8, 1000, "101 things you didn't know about dragons", "Appearantly they are Immune to magic....who knew....\n\nNewbies are twice as efficient", 0, 0, newbObj, 80)
-        const newbManual9Obj = new shopItem(newbManual9, 2000, "Xushin's guide to economic equilibrium", "An enourmous volume of compiled knowledge about supply and demand,\nsocial networking and the endless facets of individual\neconomic growth!\n\nYou're not quite sure why you need this\nbut you sure do feel smarter after reading it!\n\nNewbies are twice as efficient", 0, 0, newbObj, 90)
-        const newbManual10Obj = new shopItem(newbManual10, 8000, "Raiding and you", "A guide to teach your newbies how to\norganize their own raiding parties.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
+        const newbManual1Obj = new shopItem(newbManual1, 20, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, newbObj, 10)
+        const newbManual2Obj = new shopItem(newbManual2, 80, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20)
+        const newbManual3Obj = new shopItem(newbManual3, 390, "Yolo's guide to monsters", "Not the best strategies, but it has nice art.\n\nNewbies are twice as efficient", 0, 0, newbObj, 30)
+        const newbManual4Obj = new shopItem(newbManual4, 1300, "Xantac's guide to everything", "Everything you did, and didn't need to know,\nand then some.\n\nNewbies are twice as efficient", 0, 0, newbObj, 40)
+        const newbManual5Obj = new shopItem(newbManual5, 4200, "A druids guide to healing", "Teach your newbies to cure wounds!\n\nNewbies are twice as efficient", 0, 0, newbObj, 50)
+        const newbManual6Obj = new shopItem(newbManual6, 12500, "Guide to necromancy", "When its too late for healing......\n\nNewbies are twice as efficient", 0, 0, newbObj, 60)
+        const newbManual7Obj = new shopItem(newbManual7, 30000, "Introduction to spellcasting", "Contains useful offensive spells such as fireball,\nand water...\n\nNewbies are twice as efficient", 0, 0, newbObj, 70)
+        const newbManual8Obj = new shopItem(newbManual8, 130000, "101 things you didn't\nknow about dragons", "Appearantly they are Immune to magic....\nwho knew.... \n\nNewbies are twice as efficient", 0, 0, newbObj, 80)
+        const newbManual9Obj = new shopItem(newbManual9, 850000, "Xushin's guide to economic equilibrium", "An enourmous volume of compiled knowledge about supply and demand,\nsocial networking and the endless facets of individual\neconomic growth!\n\nYou're not quite sure why you need this\nbut you sure do feel smarter after reading it!\n\nNewbies are twice as efficient", 0, 0, newbObj, 90)
+        const newbManual10Obj = new shopItem(newbManual10, 3800000, "Raiding and you", "A guide to teach your newbies how to\norganize their own raiding parties.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
 
-        const mercGear1Obj = new shopItem(mercGear1, 1000, "Cheap swords", "Slightly better than what they were using.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 10)
-        const mercGear2Obj = new shopItem(mercGear2, 2000, "Cheap shields", "Best to be prepared!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 20)
-        const mercGear3Obj = new shopItem(mercGear3, 6000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 30)
-        const mercGear4Obj = new shopItem(mercGear4, 10000, "Blue tunics", "They might not get eaten now!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 40)
-        const mercGear5Obj = new shopItem(mercGear5, 20000, "Knight's visor", "Sturdy, reliable, and knightly.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 50)
+        const mercGear1Obj = new shopItem(mercGear1, 2800, "Cheap swords", "Slightly better than what they were using.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 10)
+        const mercGear2Obj = new shopItem(mercGear2, 7500, "Cheap shields", "Best to be prepared!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 20)
+        const mercGear3Obj = new shopItem(mercGear3, 25000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 30)
+        const mercGear4Obj = new shopItem(mercGear4, 86000, "Blue tunics", "They might not get eaten now!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 40)
+        const mercGear5Obj = new shopItem(mercGear5, 180000, "Knight's visor", "Sturdy, reliable, and knightly.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 50)
 
-        const koboldHat1Obj = new shopItem(koboldHat1, 10000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
-        const koboldHat2Obj = new shopItem(koboldHat2, 20000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
-        const koboldHat3Obj = new shopItem(koboldHat3, 30000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 3)
+        const koboldHat1Obj = new shopItem(koboldHat1, 20000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
+        const koboldHat2Obj = new shopItem(koboldHat2, 65000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
+        const koboldHat3Obj = new shopItem(koboldHat3, 210000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 3)
 
         //Object arrays for updates and save/load
         const guildObjs = [newbObj, mercObj, koboldObj, rogueObj, proHunterObj, jRPGProtagObj]
@@ -496,7 +500,7 @@
             koboldHat1Obj, koboldHat2Obj, koboldHat3Obj
         ]
 
-        const patchVersion = 0.04
+        const patchVersion = 0.05
 
 
         //Misc Functions------------------------------------------
