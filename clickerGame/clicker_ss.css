@@ -87,7 +87,13 @@ ol {
 
 .trelloBtn {
     position: absolute;
-    left: 5px;
+    left: 1px;
+    top: 5px;
+}
+
+.kofiWidget {
+    position: absolute;
+    right: 5px;
     top: 5px;
 }
 
