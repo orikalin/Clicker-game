@@ -106,6 +106,11 @@
                     <div id="koboldHat1" class="koboldHat1 shopItem shadowedItem shopHidden" onmouseover='koboldHat1Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat1Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat2" class="koboldHat2 shopItem shadowedItem shopHidden" onmouseover='koboldHat2Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat2Obj.buyGuildUpgrade()"></div>
                     <div id="koboldHat3" class="koboldHat3 shopItem shadowedItem shopHidden" onmouseover='koboldHat3Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat3Obj.buyGuildUpgrade()"></div>
+                    <div id="koboldHat4" class="koboldHat4 shopItem shadowedItem shopHidden" onmouseover='koboldHat4Obj.showToolTip()' onmouseout="ttClear()" onclick="koboldHat4Obj.buyGuildUpgrade()"></div>
+                    <div id="roguePoison1" class="roguePoison1 shopItem shadowedItem shopHidden" onmouseover='roguePoison1Obj.showToolTip()' onmouseout="ttClear()" onclick="roguePoison1Obj.buyGuildUpgrade()"></div>
+                    <div id="roguePoison2" class="roguePoison2 shopItem shadowedItem shopHidden" onmouseover='roguePoison2Obj.showToolTip()' onmouseout="ttClear()" onclick="roguePoison2Obj.buyGuildUpgrade()"></div>
+                    <div id="roguePoison3" class="roguePoison3 shopItem shadowedItem shopHidden" onmouseover='roguePoison3Obj.showToolTip()' onmouseout="ttClear()" onclick="roguePoison3Obj.buyGuildUpgrade()"></div>
+                    <div id="roguePoison4" class="roguePoison4 shopItem shadowedItem shopHidden" onmouseover='roguePoison4Obj.showToolTip()' onmouseout="ttClear()" onclick="roguePoison4Obj.buyGuildUpgrade()"></div>
 
 
                     <div id="etherealEdge" class="etherealEdge shopItem shadowedItem" onmouseover='etherealEdgeObj.showToolTip()' onmouseout="ttClear()" onclick="etherealEdgeObj.buyRateUpgradeItem()"></div>
@@ -183,11 +188,12 @@
         </div>
 
         <br>
-        <p>Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
+        <p class="updatePara">Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
         <ol><u><b>Update 2/29/2020</b></u>
-            <li>Pushing out an early day, early game balance update, just testing waters a little.</li>
+            <li>Did a little balance testing, and added a few more items. Still more to come of both!</li>
+            <li>Updated the dragon animation</li>
             <li>if you'd like to provide any feedback, feel free to <a href="https://twitter.com/Amortes1">drop me a tweet!</a></li>
         </ol>
         <ol><b><u>Update 2/27/2020</u></b>
@@ -308,6 +314,9 @@
                     gold = gold - this.cost
                     this.count = this.count + 1
                     this.cost = this.cost + Number((this.cost * this.costMult).toFixed(0))
+                    if (this.count >= 50) {
+                        this.cost = this.cost + Number((this.cost * (this.count / 1000)).toFixed(0))
+                    }
                     this.costMult = this.costMult - 0.05
                     if (this.costMult < this.multFloor) {
                         this.costMult = this.multFloor
@@ -453,8 +462,8 @@
         const mercObj = new guildRecruit(merc, 100, 0, ".mercCost", ".mercCount", 0.15, 0.07, 1, "Mercenary", "A slightly more experienced adventurer.\nOnly slighty.\n\n+", 1, " gold per second")
         const koboldObj = new guildRecruit(kobold, 500, 0, ".koboldCost", ".koboldCount", 0.25, 0.05, 5, "Kobold", "I'm not sure how they got past guild\nregistration, but they're really good at\nhoarding gold!\n\n+", 5, " gold per second")
         const rogueObj = new guildRecruit(rogue, 5000, 0, ".rogueCost", ".rogueCount", 0.3, 0.1, 20, "Rogue", "Stealing gold is literally their job.\n\n+", 20, " gold per second")
-        const proHunterObj = new guildRecruit(proHunter, 30000, 0, ".proHunterCost", ".proHunterCount", 0.35, 0.2, 100, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+", 100, " gold per second\n+1 second-hand embarassment.")
-        const jRPGProtagObj = new guildRecruit(jRPGProtag, 99999, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.45, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+", 999, " gold per second", 1)
+        const proHunterObj = new guildRecruit(proHunter, 200000, 0, ".proHunterCost", ".proHunterCount", 0.15, 0.2, 100, "Professional Hunter", "The best gear.\nThe best stats.\nThe best DPS.\nbut at what cost?\n\n+", 100, " gold per second\n+1 second-hand embarassment.")
+        const jRPGProtagObj = new guildRecruit(jRPGProtag, 1300000, 0, ".jRPGProtagCost", ".jRPGProtagCount", 0.3, 0.25, 999, "jRPG Protagonist", "\n彼は殺されるなどの小さなことで死ぬことはありません。\n\n+", 999, " gold per second", 1)
 
 
         //Item Objs-------------
@@ -484,17 +493,25 @@
         const newbManual7Obj = new shopItem(newbManual7, 30000, "Introduction to spellcasting", "Contains useful offensive spells such as fireball,\nand water...\n\nNewbies are twice as efficient", 0, 0, newbObj, 70)
         const newbManual8Obj = new shopItem(newbManual8, 130000, "101 things you didn't\nknow about dragons", "Appearantly they are Immune to magic....\nwho knew.... \n\nNewbies are twice as efficient", 0, 0, newbObj, 80)
         const newbManual9Obj = new shopItem(newbManual9, 850000, "Xushin's guide to economic equilibrium", "An enourmous volume of compiled knowledge about supply and demand,\nsocial networking and the endless facets of individual\neconomic growth!\n\nYou're not quite sure why you need this\nbut you sure do feel smarter after reading it!\n\nNewbies are twice as efficient", 0, 0, newbObj, 90)
-        const newbManual10Obj = new shopItem(newbManual10, 3800000, "Raiding and you", "A guide to teach your newbies how to\norganize their own raiding parties.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
+        const newbManual10Obj = new shopItem(newbManual10, 3800000, "Raiding and you", "A guide to teach your newbies how to\norganize their own raiding parties.\nBy L.J.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
 
         const mercGear1Obj = new shopItem(mercGear1, 2800, "Cheap swords", "Slightly better than what they were using.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 10)
         const mercGear2Obj = new shopItem(mercGear2, 7500, "Cheap shields", "Best to be prepared!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 20)
-        const mercGear3Obj = new shopItem(mercGear3, 25000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 30)
+        const mercGear3Obj = new shopItem(mercGear3, 22000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 30)
         const mercGear4Obj = new shopItem(mercGear4, 86000, "Blue tunics", "They might not get eaten now!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 40)
         const mercGear5Obj = new shopItem(mercGear5, 180000, "Knight's visor", "Sturdy, reliable, and knightly.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 50)
 
-        const koboldHat1Obj = new shopItem(koboldHat1, 20000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
-        const koboldHat2Obj = new shopItem(koboldHat2, 65000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
-        const koboldHat3Obj = new shopItem(koboldHat3, 210000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 3)
+        const koboldHat1Obj = new shopItem(koboldHat1, 25000, "Party hat", "Make any dragon den raid feel like a party!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
+        const koboldHat2Obj = new shopItem(koboldHat2, 50000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
+        const koboldHat3Obj = new shopItem(koboldHat3, 210000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 3)
+        const koboldHat4Obj = new shopItem(koboldHat4, 900000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 40, 4)
+
+        const roguePoison1Obj = new shopItem(roguePoison1, 75000, "Nightshade coating", "A poison coating for rogue's daggers\nthat puts even the largest beasts to sleep.\nEach bottle is quite expensive, but they swear\nYou're getting a bargain!\n\nRogues are twice as efficient", 0, 0, rogueObj, 10)
+        const roguePoison2Obj = new shopItem(roguePoison2, 500000, "Mandragora mix", "They say those who hear the mandragora's scream\ndie instantly. Made from it's roots, this poison\nshould have the same effect...\ntheoretically...\nResults not guaranteed.\n\nRogues are twice as efficient", 0, 0, rogueObj, 20)
+        const roguePoison3Obj = new shopItem(roguePoison3, 2400000, "Basalisk's bite", "Able to turn any foe to stone.\nThey swear its working, just takes longer\nagainst bigger creatures...\n\n\nRogues are twice as efficient", 0, 0, rogueObj, 30)
+        const roguePoison4Obj = new shopItem(roguePoison4, 8000000, "Serpent's sting", "From the most venomous of snakes\nthis coating causes slow paralysis.\nYou're starting to wonder if actually need\nany of these...\n\nRogues are twice as efficient", 0, 0, rogueObj, 40)
+
+
 
         //Object arrays for updates and save/load
         const guildObjs = [newbObj, mercObj, koboldObj, rogueObj, proHunterObj, jRPGProtagObj]
@@ -506,10 +523,11 @@
         const guildItemObjs = [
             newbManual1Obj, newbManual2Obj, newbManual3Obj, newbManual4Obj, newbManual5Obj, newbManual6Obj, newbManual7Obj, newbManual8Obj, newbManual9Obj, newbManual10Obj,
             mercGear1Obj, mercGear2Obj, mercGear3Obj, mercGear4Obj, mercGear5Obj,
-            koboldHat1Obj, koboldHat2Obj, koboldHat3Obj
+            koboldHat1Obj, koboldHat2Obj, koboldHat3Obj,
+            roguePoison1Obj, roguePoison2Obj, roguePoison3Obj, roguePoison4Obj
         ]
 
-        const patchVersion = 0.05
+        const patchVersion = 0.06
 
 
         //Misc Functions------------------------------------------
