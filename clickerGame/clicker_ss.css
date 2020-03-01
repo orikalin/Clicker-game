@@ -97,6 +97,8 @@ ol {
     top: 5px;
 }
 
+.updataPara {}
+
 .optionsBtn {
     position: absolute;
     border-radius: 5px;
@@ -613,6 +615,10 @@ ol {
     background-image: url(art/koboldHat3.png);
 }
 
+.koboldHat4 {
+    background-image: url(art/koboldHat3.png);
+}
+
 .newbManual1 {
     background-image: url(art/newbManual1.png)
 }
@@ -651,6 +657,22 @@ ol {
 
 .newbManual10 {
     background-image: url(art/newbManual10.png)
+}
+
+.roguePoison1 {
+    background-image: url(art/roguePoison1.png)
+}
+
+.roguePoison2 {
+    background-image: url(art/roguePoison2.png)
+}
+
+.roguePoison3 {
+    background-image: url(art/roguePoison3.png)
+}
+
+.roguePoison4 {
+    background-image: url(art/roguePoison4.png)
 }
 
 .ringOfMidas {
