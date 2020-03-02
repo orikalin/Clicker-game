@@ -72,7 +72,14 @@
                     <div id="changeNamePlate" onclick="changeName()">Change</div>
                     <div class="playerName"></div>
                 </div>
-                <div id="stats" class="stats">Stats readout coming soon!</div>
+                <div id="stats" class="stats">
+                    <div id="gpcStat" class="gpcStat"></div>
+                    <div id="critChanceStat" class="critChanceStat"></div>
+                    <div id="critMultStat" class="critMultStat"></div>
+                    <div id="trueDamageStat" class="trueDamageStat"></div>
+                    <div id="afgLimitStat" class="afgLimitStat"></div>
+                    <div id="afgLimitTT" class="afgLimitTT" onmouseover='showAFGToolTip()' onmouseout="ttClear()"></div>
+                </div>
                 <div class="playerAnchor">
                     <div id="thePlayer" class="thePlayer"></div>
                 </div>
@@ -88,6 +95,8 @@
                     <div id="greatSword" class="greatSword shopItem shadowedItem shopHidden" onmouseover='greatSwordObj.showToolTip()' onmouseout="ttClear()" onclick="greatSwordObj.buyFlatUpgradeItem()"></div>
                     <div id="goldenLoop" class="goldenLoop shopItem shadowedItem" onmouseover='goldenLoopObj.showToolTip()' onmouseout="ttClear()" onclick="goldenLoopObj.buyRateUpgradeItem()"></div>
                     <div id="ringOfMidas" class="ringOfMidas shopItem shadowedItem shopHidden" onmouseover='ringOfMidasObj.showToolTip()' onmouseout="ttClear()" onclick="ringOfMidasObj.buyRateUpgradeItem()"></div>
+                    <div id="ring3" class="ring3 shopItem shadowedItem shopHidden" onmouseover='ring3Obj.showToolTip()' onmouseout="ttClear()" onclick="ring3Obj.buyRateUpgradeItem()"></div>
+                    <div id="ring4" class="ring4 shopItem shadowedItem shopHidden" onmouseover='ring4Obj.showToolTip()' onmouseout="ttClear()" onclick="ring4Obj.buyRateUpgradeItem()"></div>
                     <div id="newbManual1" class="newbManual1 shopItem shadowedItem shopHidden" onmouseover='newbManual1Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual1Obj.buyGuildUpgrade()"></div>
                     <div id="newbManual2" class="newbManual2 shopItem shadowedItem shopHidden" onmouseover='newbManual2Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual2Obj.buyGuildUpgrade()"></div>
                     <div id="newbManual3" class="newbManual3 shopItem shadowedItem shopHidden" onmouseover='newbManual3Obj.showToolTip()' onmouseout="ttClear()" onclick="newbManual3Obj.buyGuildUpgrade()"></div>
@@ -113,7 +122,9 @@
                     <div id="roguePoison4" class="roguePoison4 shopItem shadowedItem shopHidden" onmouseover='roguePoison4Obj.showToolTip()' onmouseout="ttClear()" onclick="roguePoison4Obj.buyGuildUpgrade()"></div>
 
 
-                    <div id="etherealEdge" class="etherealEdge shopItem shadowedItem" onmouseover='etherealEdgeObj.showToolTip()' onmouseout="ttClear()" onclick="etherealEdgeObj.buyRateUpgradeItem()"></div>
+                    <div id="etherealEdge" class="etherealEdge shopItem shadowedItem" onmouseover='etherealEdgeObj.showToolTip()' onmouseout="ttClear()" onclick="etherealEdgeObj.buyFlatUpgradeItem()"></div>
+                    <div id="afgLimitUpgrade1" class="afgLimitUpgrade1 shopItem shadowedItem" onmouseover='afgLimitUpgrade1Obj.showToolTip()' onmouseout="ttClear()" onclick="afgLimitUpgrade1Obj.buyAFGLimitUpgrade()"></div>
+
                 </div>
             </div>
             <div id="inventoryWrapper" class="inventoryWrapper">
@@ -191,6 +202,12 @@
         <p class="updatePara">Thanks for checking out my game! This is currently a work in progress, and I will be attempting to update daily until I feel like the game is in a playable and balanced state. <br><br> If you like my work, consider donating with the link at the
             top!
         </p>
+        <ol><u><b>Update 3/1/2020</b></u>
+            <li>Added stats panel</li>
+            <li>Added a few more items</li>
+            <li>more balance tweaks</li>
+            <li>Lowered initial AFG limit to 30 minutes, as well as cut down the amount of gold you get while AFG to 25%. Both of these limits will be raised with in game items.</li>
+        </ol>
         <ol><u><b>Update 2/29/2020</b></u>
             <li>Did a little balance testing, and added a few more items. Still more to come of both!</li>
             <li>Updated the dragon animation</li>
@@ -255,7 +272,9 @@
         //misc global variables
         var critMulti = 2;
         var critChance = 1;
-        var afgLimit = 3.6e+6;
+        var afgLimit = 1800000;
+        var afgMulti = 0.25;
+        var trueDamage = 0;
         var GAME_TICK = 1; //interval speed
         var gameInterval;
         var smallUpdateTime = 0;
@@ -277,6 +296,7 @@
         var gps = 0
         var flatClickUpgrades = 0
         var rateClickUpgrades = 0
+        var finalGpc = 0;
         const theDragon = document.getElementById("theDragon")
         theDragon.addEventListener('click', dClicked)
 
@@ -314,7 +334,14 @@
                     gold = gold - this.cost
                     this.count = this.count + 1
                     this.cost = this.cost + Number((this.cost * this.costMult).toFixed(0))
+
                     if (this.count >= 50) {
+                        this.cost = this.cost + Number((this.cost * (this.count / 1000)).toFixed(0))
+                    }
+                    if (this.count >= 75) {
+                        this.cost = this.cost + Number((this.cost * (this.count / 1000)).toFixed(0))
+                    }
+                    if (this.count >= 100) {
                         this.cost = this.cost + Number((this.cost * (this.count / 1000)).toFixed(0))
                     }
                     this.costMult = this.costMult - 0.05
@@ -326,6 +353,7 @@
                     gps = gps + this.gpsI
                     gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
                     gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
+                    updateStats()
                 }
 
             }
@@ -351,16 +379,20 @@
         }
 
         class shopItem {
-            constructor(type, cost, title, desc, crit, mult, guildObj, revealAt, upgradeTier) {
+            constructor(type, cost, title, desc, crit, mult, aGpc, guildObj, revealAt, upgradeTier, trueDmg, afgL, afgM) {
                 this.type = type
                 this.cost = cost
                 this.title = title
                 this.desc = desc
                 this.crit = crit
                 this.mult = mult
+                this.aGpc = aGpc
                 this.guildObj = guildObj
                 this.revealAt = revealAt
                 this.upgradeTier = upgradeTier
+                this.trueDmg = trueDmg
+                this.afgL = afgL
+                this.afgM = afgM
             }
             priceCheckItem() {
                 if (this.cost <= gold) {
@@ -372,12 +404,19 @@
             buyFlatUpgradeItem() {
                 if (this.cost <= gold) {
                     gold = gold - this.cost
-                    flatClickUpgrades++
+                    flatClickUpgrades += this.aGpc
                     critChance = critChance + this.crit
                     critMulti = critMulti + this.mult
+
+                    if (this.trueDmg) {
+                        trueDamage += this.trueDmg
+                    }
+
                     this.type.classList.add("inInventory")
                     $('.playerInventory').append(this.type)
                     this.type.removeAttribute("onclick")
+                    updateStats()
+                    ttClear()
                 }
             }
             buyRateUpgradeItem() {
@@ -389,6 +428,8 @@
                     this.type.classList.add("inInventory")
                     $('.playerInventory').append(this.type)
                     this.type.removeAttribute("onclick")
+                    updateStats()
+                    ttClear()
                 }
             }
             revealItem() {
@@ -423,6 +464,20 @@
                     this.type.classList.add("inInventory")
                     $('.upgradeInventory').append(this.type)
                     this.type.removeAttribute("onclick")
+                    updateStats()
+                    ttClear()
+                }
+            }
+            buyAFGLimitUpgrade() {
+                if (this.cost <= gold) {
+                    gold = gold - this.cost
+                    afgLimit += this.afgL
+                    afgMulti += this.afgM
+                    this.type.classList.add("inInventory")
+                    $('.upgradeInventory').append(this.type)
+                    this.type.removeAttribute("onclick")
+                    updateStats()
+                    ttClear()
                 }
             }
         }
@@ -433,10 +488,10 @@
             posY = e.clientY
             let rgn = rngInt(1, 100 / critChance)
             if (rgn == 1) {
-                finalGpc = (gpc + flatClickUpgrades + (gps * rateClickUpgrades)) * critMulti
-                gold = gold + finalGpc
+                let critGpc = (gpc + flatClickUpgrades + (gps * rateClickUpgrades)) * critMulti
+                gold = gold + critGpc
                 gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
-                var goldAnim = $('<div  class="animation anim" style="top:' + (posY - 10) + 'px; left:' + (posX + rngInt(-25, -5)) + 'px">+' + finalGpc.toFixed(2) + '</div>');
+                var goldAnim = $('<div  class="animation anim" style="top:' + (posY - 10) + 'px; left:' + (posX + rngInt(-25, -5)) + 'px">+' + critGpc.toFixed(2) + '</div>');
                 var damageAnim = $('<div  class="critDmgAnim anim" style="top:' + (posY + rngInt(0, 20)) + 'px; left:' + (posX + rngInt(0, 40)) + 'px"></div>');
             } else {
                 finalGpc = gpc + flatClickUpgrades + (gps * rateClickUpgrades)
@@ -467,49 +522,56 @@
 
 
         //Item Objs-------------
-        //type, cost, tooltip title, tooltip description, critical chance increase, additional crit multiplier, elementid, guildObjName
+        //type, cost, tooltip title, tooltip description, critical chance increase, additional crit multiplier, additional gpc, elementid, guildObjName, true damage, afgLimit increase, afgMulti increase
+
+
         //Flat Upgrade Items
-        const ironSwordObj = new shopItem(ironSword, 300, "Iron Sword", "A basic iron sword. Cheap and effective.\n\n+1 Gold per click", 0, 0)
-        const steelSwordObj = new shopItem(steelSword, 3000, "Steel Sword", "A slight improvment.\n\n+1 Gold per click\n+25% more gold on crit", 0, 0.25)
-        const boneSwordObj = new shopItem(boneSword, 30000, "Bone Sword", "The shop keeper swears it's stronger than steel...\nNumbers don't lie, I guess.\n\n+1 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25)
-        const greatSwordObj = new shopItem(greatSword, 300000, "Great Sword", "It's great.\n\n+1 Gold per click\n+3% crit rate\n+50% more gold on crit", 3, 0.5)
+        const ironSwordObj = new shopItem(ironSword, 300, "Iron Sword", "A basic iron sword. Cheap and effective.\n\n+1 Gold per click", 0, 0, 1)
+        const steelSwordObj = new shopItem(steelSword, 3000, "Steel Sword", "A slight improvment.\n\n+5 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25, 5)
+        const boneSwordObj = new shopItem(boneSword, 30000, "Bone Sword", "The shop keeper swears it's stronger than steel...\nNumbers don't lie, I guess.\n\n+10 Gold per click\n+1% crit rate\n+25% more gold on crit", 1, 0.25, 10)
+        const greatSwordObj = new shopItem(greatSword, 300000, "Great Sword", "It's great.\n\n+50 Gold per click\n+3% crit rate\n+50% more gold on crit", 3, 0.5, 50)
 
         //Rate Upgrade Items
         const goldenLoopObj = new shopItem(goldenLoop, 15000, "Golden Loop", "Round it goes, gold through and through\nnever ending...\n\n+1% of your GPS per click", 0, 0)
         const ringOfMidasObj = new shopItem(ringOfMidas, 250000, "Ring of Midas", "Every swing of your sword creates gold!\nWhat even is inflation?!\n\n+1% of your GPS per click", 0, 0)
+        const ring3Obj = new shopItem(ring3, 2500000, "?????", "????????????????????????????????\n\n+1% of your GPS per click", 0, 0)
+        const ring4Obj = new shopItem(ring4, 25000000, "?????", "????????????????????????????????\n\n+1% of your GPS per click", 0, 0)
 
         //Crit upgrades
 
+        //AFG upgrades
+        const afgLimitUpgrade1Obj = new shopItem(afgLimitUpgrade1, 2000, "UNDER CONSTRUCTION", "Generic AFG upgrade item\n\nAFG Limit increased by 15 minutes\nAFG Production rate increased by 25%", 0, 0, 0, 0, 0, 0, 0, 900000, 0.25)
+
         //the final item
-        const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+10% crit rate\n+300% more gold on crit", 10, 3)
+        const etherealEdgeObj = new shopItem(etherealEdge, 9999999999, "Ethereal Edge", "On display as the shops most prestigious weapon.\nThe blade looks as if it could cut through anything.\n\n+1 True damage (Not yet implemented.)\n+10% crit rate\n+300% more gold on crit", 10, 3, 100000, 0, 0, 0, 1)
 
         //guild upgrades
-        const newbManual1Obj = new shopItem(newbManual1, 20, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, newbObj, 10)
-        const newbManual2Obj = new shopItem(newbManual2, 80, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, newbObj, 20)
-        const newbManual3Obj = new shopItem(newbManual3, 390, "Yolo's guide to monsters", "Not the best strategies, but it has nice art.\n\nNewbies are twice as efficient", 0, 0, newbObj, 30)
-        const newbManual4Obj = new shopItem(newbManual4, 1300, "Xantac's guide to everything", "Everything you did, and didn't need to know,\nand then some.\n\nNewbies are twice as efficient", 0, 0, newbObj, 40)
-        const newbManual5Obj = new shopItem(newbManual5, 4200, "A druids guide to healing", "Teach your newbies to cure wounds!\n\nNewbies are twice as efficient", 0, 0, newbObj, 50)
-        const newbManual6Obj = new shopItem(newbManual6, 12500, "Guide to necromancy", "When its too late for healing......\n\nNewbies are twice as efficient", 0, 0, newbObj, 60)
-        const newbManual7Obj = new shopItem(newbManual7, 30000, "Introduction to spellcasting", "Contains useful offensive spells such as fireball,\nand water...\n\nNewbies are twice as efficient", 0, 0, newbObj, 70)
-        const newbManual8Obj = new shopItem(newbManual8, 130000, "101 things you didn't\nknow about dragons", "Appearantly they are Immune to magic....\nwho knew.... \n\nNewbies are twice as efficient", 0, 0, newbObj, 80)
-        const newbManual9Obj = new shopItem(newbManual9, 850000, "Xushin's guide to economic equilibrium", "An enourmous volume of compiled knowledge about supply and demand,\nsocial networking and the endless facets of individual\neconomic growth!\n\nYou're not quite sure why you need this\nbut you sure do feel smarter after reading it!\n\nNewbies are twice as efficient", 0, 0, newbObj, 90)
-        const newbManual10Obj = new shopItem(newbManual10, 3800000, "Raiding and you", "A guide to teach your newbies how to\norganize their own raiding parties.\nBy L.J.\n\nNewbies are twice as efficient", 0, 0, newbObj, 100)
+        const newbManual1Obj = new shopItem(newbManual1, 20, "Introduction to adventuring", "A helpful guide for newbies. Printed in mass.\n\nNewbies are twice as efficient", 0, 0, 0, 0, newbObj, 10)
+        const newbManual2Obj = new shopItem(newbManual2, 80, "Swordfighting for dummies", "Another guide for your newbie recruits.\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 20)
+        const newbManual3Obj = new shopItem(newbManual3, 390, "Yolo's guide to monsters", "Not the best strategies, but it has nice art.\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 30)
+        const newbManual4Obj = new shopItem(newbManual4, 1300, "Xantac's guide to everything", "Everything you did, and didn't need to know,\nand then some.\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 40)
+        const newbManual5Obj = new shopItem(newbManual5, 4200, "A druids guide to healing", "Teach your newbies to cure wounds!\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 50)
+        const newbManual6Obj = new shopItem(newbManual6, 12500, "Guide to necromancy", "When its too late for healing......\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 60)
+        const newbManual7Obj = new shopItem(newbManual7, 30000, "Introduction to spellcasting", "Contains useful offensive spells such as fireball,\nand water...\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 70)
+        const newbManual8Obj = new shopItem(newbManual8, 130000, "101 things you didn't\nknow about dragons", "Appearantly they are Immune to magic....\nwho knew.... \n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 80)
+        const newbManual9Obj = new shopItem(newbManual9, 850000, "Xushin's guide to economic equilibrium", "An enourmous volume of compiled knowledge about supply and demand,\nsocial networking and the endless facets of individual\neconomic growth!\n\nYou're not quite sure why you need this\nbut you sure do feel smarter after reading it!\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 90)
+        const newbManual10Obj = new shopItem(newbManual10, 3800000, "Raiding and you", "A guide to teach your newbies how to\norganize their own raiding parties.\nBy L.J.\n\nNewbies are twice as efficient", 0, 0, 0, newbObj, 100)
 
-        const mercGear1Obj = new shopItem(mercGear1, 2800, "Cheap swords", "Slightly better than what they were using.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 10)
-        const mercGear2Obj = new shopItem(mercGear2, 7500, "Cheap shields", "Best to be prepared!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 20)
-        const mercGear3Obj = new shopItem(mercGear3, 22000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 30)
-        const mercGear4Obj = new shopItem(mercGear4, 86000, "Blue tunics", "They might not get eaten now!\n\nMercenaries are twice as efficient", 0, 0, mercObj, 40)
-        const mercGear5Obj = new shopItem(mercGear5, 180000, "Knight's visor", "Sturdy, reliable, and knightly.\n\nMercenaries are twice as efficient", 0, 0, mercObj, 50)
+        const mercGear1Obj = new shopItem(mercGear1, 2800, "Cheap swords", "Slightly better than what they were using.\n\nMercenaries are twice as efficient", 0, 0, 0, mercObj, 10)
+        const mercGear2Obj = new shopItem(mercGear2, 7500, "Cheap shields", "Best to be prepared!\n\nMercenaries are twice as efficient", 0, 0, 0, mercObj, 20)
+        const mercGear3Obj = new shopItem(mercGear3, 22000, "Cheap helmets", "They might as well have been wearing tin foil hats before.\n\nMercenaries are twice as efficient", 0, 0, 0, mercObj, 30)
+        const mercGear4Obj = new shopItem(mercGear4, 86000, "Blue tunics", "They might not get eaten now!\n\nMercenaries are twice as efficient", 0, 0, 0, mercObj, 40)
+        const mercGear5Obj = new shopItem(mercGear5, 180000, "Knight's visor", "Sturdy, reliable, and knightly.\n\nMercenaries are twice as efficient", 0, 0, 0, mercObj, 50)
 
-        const koboldHat1Obj = new shopItem(koboldHat1, 25000, "Party hat", "Make any dragon den raid feel like a party!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 10, 1)
-        const koboldHat2Obj = new shopItem(koboldHat2, 50000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 20, 2)
-        const koboldHat3Obj = new shopItem(koboldHat3, 210000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, koboldObj, 30, 3)
-        const koboldHat4Obj = new shopItem(koboldHat4, 900000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, koboldObj, 40, 4)
+        const koboldHat1Obj = new shopItem(koboldHat1, 25000, "Party hat", "Make any dragon den raid feel like a party!\n\nKobolds are twice as efficient", 0, 0, 0, koboldObj, 10, 1)
+        const koboldHat2Obj = new shopItem(koboldHat2, 50000, "Miniature crown", "Make every kobold feel like royalty.\nHopefully it doesn't go to their heads.\n\nKobolds are twice as efficient", 0, 0, 0, koboldObj, 20, 2)
+        const koboldHat3Obj = new shopItem(koboldHat3, 210000, "Fancy hat", "Increases Kobold productivity two fold!\n\nKobolds are twice as efficient", 0, 0, 0, koboldObj, 30, 3)
+        const koboldHat4Obj = new shopItem(koboldHat4, 900000, "Legendary Hero's cap", "Kobolds feel more heroic and inspired\nto adventure with this hat.\n\nKobolds are twice as efficient", 0, 0, 0, koboldObj, 40, 4)
 
-        const roguePoison1Obj = new shopItem(roguePoison1, 75000, "Nightshade coating", "A poison coating for rogue's daggers\nthat puts even the largest beasts to sleep.\nEach bottle is quite expensive, but they swear\nYou're getting a bargain!\n\nRogues are twice as efficient", 0, 0, rogueObj, 10)
-        const roguePoison2Obj = new shopItem(roguePoison2, 500000, "Mandragora mix", "They say those who hear the mandragora's scream\ndie instantly. Made from it's roots, this poison\nshould have the same effect...\ntheoretically...\nResults not guaranteed.\n\nRogues are twice as efficient", 0, 0, rogueObj, 20)
-        const roguePoison3Obj = new shopItem(roguePoison3, 2400000, "Basalisk's bite", "Able to turn any foe to stone.\nThey swear its working, just takes longer\nagainst bigger creatures...\n\n\nRogues are twice as efficient", 0, 0, rogueObj, 30)
-        const roguePoison4Obj = new shopItem(roguePoison4, 8000000, "Serpent's sting", "From the most venomous of snakes\nthis coating causes slow paralysis.\nYou're starting to wonder if actually need\nany of these...\n\nRogues are twice as efficient", 0, 0, rogueObj, 40)
+        const roguePoison1Obj = new shopItem(roguePoison1, 75000, "Nightshade coating", "A poison coating for rogue's daggers\nthat puts even the largest beasts to sleep.\nEach bottle is quite expensive, but they swear\nYou're getting a bargain!\n\nRogues are twice as efficient", 0, 0, 0, rogueObj, 10)
+        const roguePoison2Obj = new shopItem(roguePoison2, 500000, "Mandragora mix", "They say those who hear the mandragora's scream\ndie instantly. Made from it's roots, this poison\nshould have the same effect...\ntheoretically...\nResults not guaranteed.\n\nRogues are twice as efficient", 0, 0, 0, rogueObj, 20)
+        const roguePoison3Obj = new shopItem(roguePoison3, 2400000, "Basalisk's bite", "Able to turn any foe to stone.\nThey swear its working....\n\nRogues are twice as efficient", 0, 0, 0, rogueObj, 30)
+        const roguePoison4Obj = new shopItem(roguePoison4, 8000000, "Serpent's sting", "From the most venomous of snakes\nthis coating causes slow paralysis.\nYou're starting to wonder if actually need\nany of these...\n\nRogues are twice as efficient", 0, 0, 0, rogueObj, 40)
 
 
 
@@ -517,14 +579,15 @@
         const guildObjs = [newbObj, mercObj, koboldObj, rogueObj, proHunterObj, jRPGProtagObj]
         const playerItemObjs = [
             ironSwordObj, steelSwordObj, boneSwordObj, greatSwordObj,
-            goldenLoopObj, ringOfMidasObj,
+            goldenLoopObj, ringOfMidasObj, ring3Obj, ring4Obj,
             etherealEdgeObj
         ]
         const guildItemObjs = [
             newbManual1Obj, newbManual2Obj, newbManual3Obj, newbManual4Obj, newbManual5Obj, newbManual6Obj, newbManual7Obj, newbManual8Obj, newbManual9Obj, newbManual10Obj,
             mercGear1Obj, mercGear2Obj, mercGear3Obj, mercGear4Obj, mercGear5Obj,
-            koboldHat1Obj, koboldHat2Obj, koboldHat3Obj,
-            roguePoison1Obj, roguePoison2Obj, roguePoison3Obj, roguePoison4Obj
+            koboldHat1Obj, koboldHat2Obj, koboldHat3Obj, koboldHat4Obj,
+            roguePoison1Obj, roguePoison2Obj, roguePoison3Obj, roguePoison4Obj,
+            afgLimitUpgrade1Obj
         ]
 
         const patchVersion = 0.06
@@ -556,6 +619,23 @@
                     QS(".playerInventory").style = "z-index:301;"
                     break;
             }
+        }
+
+        function updateStats() {
+            finalGpc = gpc + flatClickUpgrades + (gps * rateClickUpgrades)
+            gpcStat.innerText = finalGpc.toFixed(2)
+            critChanceStat.innerText = `${critChance}%`
+            critMultStat.innerText = `x${critMulti}`
+            afgLimitStat.innerText = (((afgLimit / 1000) / 60) / 60) + ' Hour(s)'
+            trueDamageStat.innerText = trueDamage
+        }
+
+        function showAFGToolTip(title, desc) {
+            ttWindow.style.display = "block"
+            ttWindow.childNodes[1].innerText = ""
+            ttWindow.childNodes[2].src = ""
+            ttWindow.childNodes[4].innerText = "Away from game limit"
+            ttWindow.childNodes[7].innerText = `The amount of time you will continue to\nobtain gold while away from the game.\n\nThe timer begins when the game is out of focus\nor the window is closed.\n\nYou will gain ${afgMulti*100}% of your gold per second while AFG.`
         }
         //--------------------------------------------------------
 
@@ -599,11 +679,11 @@
 
         function updateGoldAFK(delta) { // delta 500 example... gold + (gps/1000)*delta
             if (delta <= afgLimit) {
-                gold = gold + (gps / 1000) * delta
+                gold = gold + (((gps / 1000) * delta) * afgMulti)
                 gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
                 gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
             } else {
-                gold = gold + (gps / 1000) * afgLimit
+                gold = gold + (((gps / 1000) * afgLimit) * afgMulti)
                 gDisplay.innerHTML = `Gold: ${gold.toFixed(0)}`
                 gpsDisplay.innerHTML = `Gold per second : ${gps.toFixed(2)}`
             }
@@ -640,6 +720,9 @@
                 rateClickUpgrades: rateClickUpgrades,
                 critChance: critChance,
                 critMulti: critMulti,
+                trueDamage: trueDamage,
+                afgLimit: afgLimit,
+                afgMulti: afgMulti,
 
                 //------------recruits
                 guildSaves: guildObjs,
@@ -668,6 +751,9 @@
                 if (typeof savegame.rateClickUpgrades !== "undefined") rateClickUpgrades = savegame.rateClickUpgrades;
                 if (typeof savegame.critChance !== "undefined") critChance = savegame.critChance;
                 if (typeof savegame.critMulti !== "undefined") critMulti = savegame.critMulti;
+                if (typeof savegame.trueDamage !== "undefined") trueDamage = savegame.trueDamage;
+                if (typeof savegame.afgLimit !== "undefined") afgLimit = savegame.afgLimit;
+                if (typeof savegame.afgMulti !== "undefined") afgMulti = savegame.afgMulti;
                 if (typeof savegame.playerName !== "undefined") playerName.innerText = savegame.playerName;
                 document.getElementById("textJitter").checked = savegame.textJitter;
                 savegame.guildSaves.forEach((e, i) => rLoadTest(e, i, guildObjs))
@@ -752,6 +838,7 @@
         //Stuff that happens on page load
         loadGame();
         onStartup();
+        updateStats();
         $("#options").hide()
 
         if (document.getElementById("textJitter").checked) {

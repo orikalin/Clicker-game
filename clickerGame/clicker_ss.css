@@ -391,6 +391,45 @@ ol {
     background-color: rgb(38, 42, 48);
     width: 250px;
     height: 175px;
+    background-image: url(art/statsBG.png);
+}
+
+.gpcStat,
+.critChanceStat,
+.critMultStat,
+.afgLimitStat,
+.trueDamageStat {
+    font-family: IMMORTAL;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.gpcStat {
+    margin-top: 25px;
+}
+
+.critChanceStat {
+    margin-top: 12px;
+}
+
+.critMultStat {
+    margin-top: 12px;
+}
+
+.trueDamageStat {
+    margin-top: 11px;
+}
+
+.afgLimitStat {
+    margin-top: 11px;
+}
+
+.afgLimitTT {
+    z-index: 5;
+    position: absolute;
+    bottom: 0px;
+    height: 32px;
+    width: 100%;
 }
 
 .shopHeader {
@@ -412,6 +451,7 @@ ol {
     width: 300px;
     height: 250px;
     background-color: rgb(59, 64, 73);
+    overflow: hidden;
 }
 
 .inventoryTabs {
@@ -451,8 +491,14 @@ ol {
     position: absolute;
     top: 20px;
     height: 230px;
-    width: 300px;
+    width: 325px;
     background-color: rgb(59, 64, 73);
+    overflow-y: scroll;
+}
+
+.playerInventory,
+.upgradeInventory::-webkit-scrollbar {
+    width: 0 !important
 }
 
 .playerInventory {
@@ -616,7 +662,7 @@ ol {
 }
 
 .koboldHat4 {
-    background-image: url(art/koboldHat3.png);
+    background-image: url(art/koboldHat4.png);
 }
 
 .newbManual1 {
